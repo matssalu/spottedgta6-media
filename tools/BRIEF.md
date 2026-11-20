@@ -28,3 +28,22 @@ Pick: bets and challenges, animals, police chases, crashes, big fails, streamer 
 
 ## Captions
 One teasing line + required campaign line + required hashtags, end with a short question to drive comments ("Would you take that bet?"). Never #fyp or #reels.
+
+## Extra campaigns (added 20 Nov)
+Per account per day: 2 Dylan Page + 2 Gattouz (on top of the 6 / 3 above).
+- Account 1 extra slots: 15:00 Dylan, 17:00 Gattouz, 19:00 Dylan, 21:00 Gattouz.
+- Account 2 extra slots: 16:00 Dylan, 18:00 Gattouz, 20:00 Dylan, 22:00 Gattouz.
+
+### Dylan Page ($1 CPM, TikTok/IG/YouTube) — campaign 39753a1a-f1f3-491b-a8f6-0cfee0af0c97
+- 120-hour GTA 6 marathon on YouTube, channel UCzPpbeK8ANcNKg5aoMB0miw (/streams). Dylan must be visible. Caption must include #DylanPage.
+- YouTube blocks the cloud: download on the Mac shell (device_bash) with `python3 -m yt_dlp` (pip install --user yt-dlp) in $HOME (deletes are blocked under mnt); `--download-sections "*START-END"`; copy result into ~/mnt/Documents/GTA6-page/media/dylan/src/ and device_stage_files it. Background processes die after each call: keep each call < 170 s.
+- Signals: live chat replay (`--write-subs --sub-langs live_chat`, ~20 s per VOD) -> W/LOL spikes.
+- Gameplay layout: cam top-right, spec cam [0.684,0.115,0.314,0.304], game_shift -0.12. IRL segments: spec "full": true, "full_x" (0-1 horizontal centre of Dylan), "cam": [0,0,1,1]; use "hook_y": 1480 if the hook would cover faces.
+- Dylan = blond guy (tank top / black long-sleeve); co-hosts Alex (beard, cap) and Elliot.
+
+### Gattouz / 1WIN ($0.35 CPM, min $35, TikTok + Instagram only) — campaign 0123c725-0bb8-49fc-b60a-5affd894b66d
+- Kick: https://kick.com/api/v2/channels/gattouz0/videos (VOD HLS 'source'), clips: /api/v2/channels/gattouz0/clips?sort=view&time=week, clip video_url via /api/v2/clips/<id>.
+- Signals: the VOD has English auto-subtitles: <source dir>/subtitles/en/playlist.m3u8 (download all .vtt, scan keywords). Avoid his many strip-club / nudist / sexual segments.
+- The 1WIN branding is his "1win" chain pendant: keep his chest in the cam crop and set "hook_y": 760 so the hook never covers it. Never add a logo.
+- Nov 19 layout cam top-left [0.0,-0.02,0.305,0.28]; Nov 18 cam top-left with girlfriend [0.04,-0.02,0.16,0.25] or bottom-left [0.085,0.66,0.22,0.3]. Check every day.
+- Captions in English (tr_en.py = whisper translate). Caption must tag @gattouze and disclose: "Gattouz is live on Kick: kick.com/gattouz0 @gattouze #ad" + "#Gattouz #GTA6 #GTAVI #1win".

@@ -122,6 +122,8 @@ def main():
     words = json.load(open(wpath)) if os.path.exists(wpath) else []
     words = [{"word": w.get("word", w.get("w", "")), "start": w.get("start", w.get("s", 0)), "end": w.get("end", w.get("e", 0))} for w in words]
     t0 = float(sp.get("start", 0)); t1 = float(sp.get("end", min(dur, t0 + 30)))
+    # words are in source time; captions are mapped in segment time (0 = start of window)
+    words = [{"word": w["word"], "start": w["start"] - t0, "end": w["end"] - t0} for w in words if w["start"] >= t0 - 0.05]
     climax = float(sp["climax"]) if "climax" in sp else r4.loud_peak(src, t0, t1)
     # ---- 1. base vertical composite of the window (cam top, game bottom, punch-in on the cam at the climax)
     if "cam" in sp:
@@ -141,7 +143,13 @@ def main():
     zp = (f"zoompan=z='if(between(it,{rc - 0.25:.2f},{rc + 1.6:.2f}),1.16,1)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'"
           f":d=1:s={W}x{CAM_H}:fps={FPS}")
     base = os.path.join(tmp, "base.mp4")
-    fc = (f"[0:v]fps={FPS},split=2[a][b];"
+    if sp.get("full"):  # IRL / single-camera source: one 9:16 crop, punch-in on the climax
+        fx = sp.get("full_x", 0.5)
+        cw9 = r4.even(min(sw, sh * W / H)); cx9 = r4.even(min(max(0, sw * fx - cw9 / 2), sw - cw9))
+        zpf = zp.replace(f"s={W}x{CAM_H}", f"s={W}x{H}")
+        fc = (f"[0:v]fps={FPS},crop={cw9}:{sh}:{cx9}:0,scale={W}:{H}:flags=lanczos,{zpf}[v];[0:a]aresample=48000[a0]")
+    else:
+      fc = (f"[0:v]fps={FPS},split=2[a][b];"
           f"[a]crop={cam[0]}:{cam[1]}:{cam[2]}:{cam[3]},scale={W}:{CAM_H}:flags=lanczos,{zp}[cam];"
           f"[b]crop={gw}:{sh}:{gx}:0,scale={W}:{game_h}:flags=lanczos[game];[cam][game]vstack[v];"
           f"[0:a]aresample=48000[a0]")
@@ -176,7 +184,7 @@ def main():
     cat = "".join(f"[v{i}][a{i}]" for i in range(n)) + f"concat=n={n}:v=1:a=1[vc][ac]"
     hook_png = os.path.join(tmp, "hook.png")
     tw, th = title_png(sp["hook"], hook_png, size=sp.get("hook_size", 80), maxw=980)
-    hy = r4.even(CAM_H - th / 2)  # hook sits on the seam between cam and gameplay, below the face
+    hy = r4.even(sp["hook_y"]) if "hook_y" in sp else (r4.even(150) if sp.get("full") else r4.even(CAM_H - th / 2))  # hook sits on the seam between cam and gameplay, below the face
     chain = f"[vc][1:v]overlay=(W-w)/2:{hy}[vh]"
     last = "vh"
     inputs = ["-i", base, "-loop", "1", "-i", hook_png]

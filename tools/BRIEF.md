@@ -47,3 +47,8 @@ Per account per day: 2 Dylan Page + 2 Gattouz (on top of the 6 / 3 above).
 - The 1WIN branding is his "1win" chain pendant: keep his chest in the cam crop and set "hook_y": 760 so the hook never covers it. Never add a logo.
 - Nov 19 layout cam top-left [0.0,-0.02,0.305,0.28]; Nov 18 cam top-left with girlfriend [0.04,-0.02,0.16,0.25] or bottom-left [0.085,0.66,0.22,0.3]. Check every day.
 - Captions in English (tr_en.py = whisper translate). Caption must tag @gattouze and disclose: "Gattouz is live on Kick: kick.com/gattouz0 @gattouze #ad" + "#Gattouz #GTA6 #GTAVI #1win".
+
+## Scheduling safety (added 20 Nov)
+- The Mac uploaders rewrite their CSV when they finish (TikTok acc 1 job at :40, account-2/YouTube job at :52). Rows appended while a job runs get LOST. Only edit the Mac CSVs between :00 and :35, then re-read them to confirm every new row is there.
+- No IRL content (Mats, 20 Nov): gameplay with facecam only. No whoosh / "shhh" SFX (removed from render5).
+- Pick FUN moments: a visible event with a payoff (crash, escape, fail, fight, scare, landing) and a loud reaction. Skip calm driving/talking clips.

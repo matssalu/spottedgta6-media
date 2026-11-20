@@ -201,15 +201,15 @@ def main():
     # sfx: whoosh into the rewind after the cold open, boom on the climax in the main part
     whoosh, boom = os.path.join(tmp, "w.wav"), os.path.join(tmp, "b.wav")
     sfx(whoosh, "whoosh", 0.45); sfx(boom, "boom", 0.9)
-    inputs += ["-i", whoosh, "-i", boom]
-    wi, bi = idx, idx + 1
-    mix = f";[{wi}:a]adelay={int(max(0, offset - 0.2) * 1000)}:all=1[wh]"
+    inputs += ["-i", boom]
+    bi = idx
+    mix = ""  # no whoosh into the rewind (Mats: no "shhh" after 2 s)
     beats = [0.0] + ([map_time(rc, keep, offset)] if map_time(rc, keep, offset) is not None else [])
     bl = []
     for k, t in enumerate(beats):
         mix += f";[{bi}:a]adelay={int(t * 1000)}:all=1[bm{k}]"
         bl.append(f"[bm{k}]")
-    mix += f";[ac][wh]{''.join(bl)}amix=inputs={2 + len(bl)}:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11[aout]"
+    mix += f";[ac]{''.join(bl)}amix=inputs={1 + len(bl)}:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11[aout]"
     fc2 = ";".join(parts) + ";" + cat + ";" + chain + mix
     run(["ffmpeg", "-v", "error", "-y", *inputs, "-filter_complex", fc2, "-map", f"[{last}]", "-map", "[aout]",
          "-t", f"{final_len:.2f}", "-r", str(FPS), "-c:v", "libx264", "-preset", "medium", "-crf", "18", "-pix_fmt", "yuv420p",

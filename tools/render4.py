@@ -198,7 +198,14 @@ def main():
             f"[st][1:v]overlay=(W-w)/2:{ty}{vf_caps}[v];"
             f"[0:a]aresample=48000,loudnorm=I=-14:TP=-1.5:LRA=11[aout]")
     # captions use times relative to the cut, so seek with -ss before -i (timestamps reset to 0)
-    cmd = ["ffmpeg", "-v", "error", "-y", "-ss", f"{t0:.2f}", "-t", f"{d:.2f}", "-i", src, "-i", tpng,
+    extra_in = []
+    if sp.get("overlay"):
+        ow = sp.get("overlay_w", 640)
+        oy = sp.get("overlay_y", int(H * 0.86))
+        extra_in = ["-loop", "1", "-i", sp["overlay"]]
+        fc = fc.replace("[v];", "[v0];", 1)
+        fc += f";[2:v]scale={ow}:-1[lg];[v0][lg]overlay=(W-w)/2:{oy}:shortest=1[v]"
+    cmd = ["ffmpeg", "-v", "error", "-y", "-ss", f"{t0:.2f}", "-t", f"{d:.2f}", "-i", src, "-i", tpng, *extra_in,
            "-filter_complex", fc, "-map", "[v]", "-map", "[aout]", "-t", f"{d:.2f}", "-r", "30",
            "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p",
            "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", sp["out"]]

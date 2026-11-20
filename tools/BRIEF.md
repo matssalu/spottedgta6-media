@@ -52,3 +52,9 @@ Per account per day: 2 Dylan Page + 2 Gattouz (on top of the 6 / 3 above).
 - The Mac uploaders rewrite their CSV when they finish (TikTok acc 1 job at :40, account-2/YouTube job at :52). Rows appended while a job runs get LOST. Only edit the Mac CSVs between :00 and :35, then re-read them to confirm every new row is there.
 - No IRL content (Mats, 20 Nov): gameplay with facecam only. No whoosh / "shhh" SFX (removed from render5).
 - Pick FUN moments: a visible event with a payoff (crash, escape, fail, fight, scare, landing) and a loud reaction. Skip calm driving/talking clips.
+
+## Schedule from 22 Nov (Mats, 21 Nov: "focus even more on KreekCraft")
+- Account 1: 14 Kreek, 15 Dylan, 16 Kreek, 17 Gattouz, 18 Kreek, 19 Dylan, 20 Kreek, 21 Gattouz, 22 Kreek, 00 Kreek.
+- Account 2: 15 Kreek, 16 Dylan, 17 Kreek, 18 Gattouz, 19 Kreek, 20 Dylan, 21 Kreek, 22 Gattouz, 23 Kreek.
+- Kai Cenat / Clix only when there is an exceptional moment (then it replaces one Kreek slot). Otherwise all-KreekCraft in those slots.
+- Quality over quantity: if after a long search a slot has no clip that passes the bar in tools/LEARNINGS.md, leave the slot empty and say so. Never fill with a weak clip.

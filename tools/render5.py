@@ -153,7 +153,7 @@ def main():
     # ---- 2. timeline: cold open (payoff first), then the moment with dead air removed
     keep = keep_ranges(seg_len, silences(base), rc)
     total = sum(b - a for a, b in keep)
-    max_len = sp.get("max_len", 23)
+    max_len = sp.get("max_len", 27)
     if total > max_len:  # trim from the front, keep the ending (punchline)
         need = total - max_len
         while need > 0 and keep:

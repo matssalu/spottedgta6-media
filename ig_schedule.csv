@@ -1,16 +1,31 @@
-nr,post_at_brussels,video_url,title,hashtag
-01,2026-11-19 18:08,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/01.mp4,"Kai Cenat: ""I was raised by Michael, Franklin and Trevor"" 😭",#KaiCenat
-02,2026-11-19 20:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/02.mp4,"Kai Cenat robbing a store: ""make sure I look good on camera"" 💀",#KaiCenat
-03,2026-11-19 22:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/03.mp4,Kai Cenat's van FLIPPED… then the cops caught him 😭,#KaiCenat
-k1-01,2026-11-20 12:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/k1/01_kreek_3741711683.mp4,KreekCraft bet a FREE copy of GTA 6 he wouldn't get eaten by a crocodile 😭🐊,#KreekCraft
-b1-01,2026-11-20 13:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/b1/01_kaicenat_4188544786.mp4,Kai Cenat's GTA 6 girlfriend found out about his EX 😭,#KaiCenat
-k1-02,2026-11-20 14:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/k1/02_kreek_4205247397.mp4,KreekCraft went shark hunting in GTA 6 🦈😭,#KreekCraft
-b1-02,2026-11-20 15:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/b1/02_kaicenat_3422080430.mp4,Kai Cenat's FIRST getaway in GTA 6 went CRAZY 😭,#KaiCenat
-k1-03,2026-11-20 16:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/k1/03_kreek_4261548658.mp4,KreekCraft said a dog on a jet ski would NEVER pick him up… 😭🐶,#KreekCraft
-b1-07,2026-11-20 17:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/b1/07_clix_3241974529.mp4,Clix tried landing a plane in GTA 6… WASTED 💀,#Clix
-b1-03,2026-11-20 18:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/b1/03_kaicenat_4276613123.mp4,Kai Cenat's FIRST pickup in GTA 6 had him SHOOK 😳,#KaiCenat
-b1-08,2026-11-20 19:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/b1/08_clix_762616500.mp4,Clix tried flying a seaplane in GTA 6 and crashed OUT 😭,#Clix
-b1-09,2026-11-20 20:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/b1/09_clix_2591123041.mp4,Clix's GTA 6 partner had an ATTITUDE 💀,#Clix
-k1-04,2026-11-20 21:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/k1/04_kreek_51330.mp4,KreekCraft's GTA 6 stream got BANNED on Twitter mid-stream 😳,#KreekCraft
-b1-04,2026-11-20 22:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/b1/04_kaicenat_2014379592.mp4,Kai Cenat thinks GTA 6 got Miami PERFECT 😳🌴,#KaiCenat
-k1-05,2026-11-20 23:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/k1/05_kreek_1293662674.mp4,KreekCraft forgot he was supposed to ROB the store 😭,#KreekCraft
+nr,post_at_brussels,video_url,title,hashtag,caption
+01,2026-11-19 18:08,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/01.mp4,"Kai Cenat: ""I was raised by Michael, Franklin and Trevor"" 😭",#KaiCenat,
+02,2026-11-19 20:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/02.mp4,"Kai Cenat robbing a store: ""make sure I look good on camera"" 💀",#KaiCenat,
+03,2026-11-19 22:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/03.mp4,Kai Cenat's van FLIPPED… then the cops caught him 😭,#KaiCenat,
+k1-01,2026-11-20 12:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/k1/01_kreek_3741711683.mp4,KreekCraft bet a FREE copy of GTA 6 he wouldn't get eaten by a crocodile 😭🐊,#KreekCraft,
+b1-01,2026-11-20 13:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/b1/01_kaicenat_4188544786.mp4,Kai Cenat's GTA 6 girlfriend found out about his EX 😭,#KaiCenat,
+k1-02,2026-11-20 14:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/k1/02_kreek_4205247397.mp4,KreekCraft went shark hunting in GTA 6 🦈😭,#KreekCraft,
+b1-02,2026-11-20 15:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/b1/02_kaicenat_3422080430.mp4,Kai Cenat's FIRST getaway in GTA 6 went CRAZY 😭,#KaiCenat,
+k1-03,2026-11-20 16:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/k1/03_kreek_4261548658.mp4,KreekCraft said a dog on a jet ski would NEVER pick him up… 😭🐶,#KreekCraft,
+b1-07,2026-11-20 17:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/b1/07_clix_3241974529.mp4,Clix tried landing a plane in GTA 6… WASTED 💀,#Clix,
+b1-03,2026-11-20 18:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/b1/03_kaicenat_4276613123.mp4,Kai Cenat's FIRST pickup in GTA 6 had him SHOOK 😳,#KaiCenat,
+b1-08,2026-11-20 19:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/b1/08_clix_762616500.mp4,Clix tried flying a seaplane in GTA 6 and crashed OUT 😭,#Clix,
+b1-09,2026-11-20 20:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/b1/09_clix_2591123041.mp4,Clix's GTA 6 partner had an ATTITUDE 💀,#Clix,
+k1-04,2026-11-20 21:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/k1/04_kreek_51330.mp4,KreekCraft's GTA 6 stream got BANNED on Twitter mid-stream 😳,#KreekCraft,
+b1-04,2026-11-20 22:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/b1/04_kaicenat_2014379592.mp4,Kai Cenat thinks GTA 6 got Miami PERFECT 😳🌴,#KaiCenat,
+k1-05,2026-11-20 23:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/k1/05_kreek_1293662674.mp4,KreekCraft forgot he was supposed to ROB the store 😭,#KreekCraft,
+d1121-a1_1100_clix,2026-11-21 11:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/d20261121/a1_1100_clix.mp4,Clix robbed his FIRST store like a pro 💀,#Clix,"He walked in with ZERO hesitation 💀
+
+#GTA6 #Clix #GTA6Robbery #GTA6Funny"
+d1121-a1_1300_kai,2026-11-21 13:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/d20261121/a1_1300_kai.mp4,Kai stole a car and warned EVERYONE 😭,#KaiCenat,"Kai went full villain in this parking lot 😭
+
+#GTA6 #KaiCenat #GTA6Funny #GTA6Clips"
+d1121-a1_1500_kreek,2026-11-21 15:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/d20261121/a1_1500_kreek.mp4,Someone told KreekCraft he owes child support 😭,#KreekCraft,"A viewer really said this to KreekCraft 😭 Watch KreekCraft on YouTube and Twitch
+
+#GTA6 #KreekCraft #GrandTheftAutoVI #GTA6Funny"
+d1121-a1_1700_clix,2026-11-21 17:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/d20261121/a1_1700_clix.mp4,Clix FINALLY landed the seaplane 😭✈️,#Clix,"He was NOT sure this would work ✈️😭
+
+#GTA6 #Clix #GTA6Plane #GTA6Funny"
+d1121-a1_1900_kai,2026-11-21 19:00,https://raw.githubusercontent.com/matssalu/spottedgta6-media/main/d20261121/a1_1900_kai.mp4,Kai wasn't ready for the GTA 6 baby 😳,#KaiCenat,"Nobody expected THIS in GTA 6 😳
+
+#GTA6 #KaiCenat #GTA6Baby #GTA6Clips"

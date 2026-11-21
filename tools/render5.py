@@ -71,6 +71,8 @@ def ass_captions(words, keep, offset, path, y):
             ws.append((s, e, txt))
     groups, cur = [], []
     for w in ws:
+        if cur and w[0] - cur[-1][1] > 0.8:  # a pause ends the group (no caption lingering over silence)
+            groups.append(cur); cur = []
         cur.append(w)
         if len(cur) >= 3 or re.search(r"[.?!,]$", w[2]) or len(" ".join(x[2] for x in cur)) > 16:
             groups.append(cur); cur = []
@@ -82,7 +84,7 @@ def ass_captions(words, keep, offset, path, y):
         g_end = min(g_end, g[-1][1] + 0.6)
         for wi, (s, e, _) in enumerate(g):
             s2 = s if wi else s
-            e2 = g[wi + 1][0] if wi + 1 < len(g) else g_end
+            e2 = min(g[wi + 1][0], e + 0.6) if wi + 1 < len(g) else g_end
             parts = [("{\\c&H00F0FF&}" + t + "{\\c&HFFFFFF&}") if j == wi else t for j, (_, _, t) in enumerate(g)]
             pop = "{\\fscx88\\fscy88\\t(0,80,\\fscx100\\fscy100)}" if wi == 0 else ""
             ev.append(f"Dialogue: 0,{r4.ass_time(s2)},{r4.ass_time(max(e2, s2 + 0.05))},Cap,,0,0,0,,{pop}{' '.join(parts)}")

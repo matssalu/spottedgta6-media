@@ -83,3 +83,8 @@ Production notes 21 Nov (for the 22 Nov batch)
 - New source idea from Mats: trending YouTube compilations of streamers' GTA 6 moments = proven moments; trace them back to the original stream and make our own edit.
 - New signature look: animated neon border around the facecam (render5, on by default).
 - Known problem to keep watching: TikTok @spottedgta6 had 0% For You traffic and Content Rewards could not read its posts (21 Nov). LUXDROP requires 10,000 views before any payout.
+
+## 2026-11-23 late — manual batch d20261123n (8 clips, Speed only)
+- Source method that worked: trending compilations + Speed's own clip-channel shorts (Speedy Boykins) → whisper the short → grep the phrase in the YouTube auto-subs of the full VOD → download only that window via the HLS playlist (yt-dlp --download-sections hangs on 24 h VODs; tools: Mac $HOME/seg/hg.py).
+- Rejected: polar bear (too dark, bear barely visible), dirt-bike race (no clear payoff), store robbery (pause/photo menus). Niko clip cut around a nude cutscene frame.
+- render5: when using a pre-cut source, set "end" to the real duration, otherwise max_len trims the setup away.

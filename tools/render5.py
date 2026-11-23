@@ -71,8 +71,6 @@ def ass_captions(words, keep, offset, path, y):
             ws.append((s, e, txt))
     groups, cur = [], []
     for w in ws:
-        if cur and w[0] - cur[-1][1] > 0.8:  # a pause ends the group (no caption lingering over silence)
-            groups.append(cur); cur = []
         cur.append(w)
         if len(cur) >= 3 or re.search(r"[.?!,]$", w[2]) or len(" ".join(x[2] for x in cur)) > 16:
             groups.append(cur); cur = []
@@ -84,7 +82,7 @@ def ass_captions(words, keep, offset, path, y):
         g_end = min(g_end, g[-1][1] + 0.6)
         for wi, (s, e, _) in enumerate(g):
             s2 = s if wi else s
-            e2 = min(g[wi + 1][0], e + 0.6) if wi + 1 < len(g) else g_end
+            e2 = g[wi + 1][0] if wi + 1 < len(g) else g_end
             parts = [("{\\c&H00F0FF&}" + t + "{\\c&HFFFFFF&}") if j == wi else t for j, (_, _, t) in enumerate(g)]
             pop = "{\\fscx88\\fscy88\\t(0,80,\\fscx100\\fscy100)}" if wi == 0 else ""
             ev.append(f"Dialogue: 0,{r4.ass_time(s2)},{r4.ass_time(max(e2, s2 + 0.05))},Cap,,0,0,0,,{pop}{' '.join(parts)}")
@@ -103,6 +101,34 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
     open(path, "w").write(head + "\n".join(ev) + "\n")
     return len(ev)
+
+
+LOGOS = {"clipup": os.path.join(os.path.dirname(os.path.abspath(__file__)), "logos_use", "clipup.png"),
+         "luxdrop": os.path.join(os.path.dirname(os.path.abspath(__file__)), "logos_use", "luxdrop.png")}
+
+
+def neon_frames(folder, w, h, n=60, inset=14, radius=36, thick=7):
+    """Signature animated neon facecam border: cyan core, violet glow, faint pink outer haze,
+    gentle pulse + sub-2px jiggle. Writes n looping RGBA frames neon_%02d.png."""
+    import math
+    from PIL import Image, ImageDraw, ImageFilter
+    os.makedirs(folder, exist_ok=True)
+    for i in range(n):
+        ph = 2 * math.pi * i / n
+        pulse = 0.82 + 0.18 * math.sin(ph)
+        dx, dy = 1.5 * math.sin(ph * 2), 1.2 * math.cos(ph * 3)
+        box = [inset + dx, inset + dy, w - inset + dx, h - inset + dy]
+        img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        for col, wid, blur, a in (((255, 70, 200), thick + 22, 16, 0.9), ((140, 70, 255), thick + 12, 8, 1.0),
+                                  ((140, 70, 255), thick + 12, 8, 1.0), ((0, 225, 255), thick + 2, 2, 1.0),
+                                  ((225, 255, 255), max(3, thick // 2), 0, 1.0)):
+            layer = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+            ImageDraw.Draw(layer).rounded_rectangle(box, radius=radius, outline=col + (int(255 * a * pulse),), width=wid)
+            if blur:
+                layer = layer.filter(ImageFilter.GaussianBlur(blur))
+            img.alpha_composite(layer)
+        img.save(os.path.join(folder, f"neon_{i:02d}.png"))
+    return os.path.join(folder, "neon_%02d.png")
 
 
 def sfx(path, kind, dur):
@@ -138,7 +164,13 @@ def main():
     cam = r4.cam_box(face, sw, sh, CAM_H, sp.get("cam_mult", 4.2))
     # keep the face in the upper third of the cam panel so the hook text never covers it
     cam[3] = r4.even(min(max(0, face[1] - cam[1] * 0.33), sh - cam[1]))
-    game_h = H - CAM_H
+    logo = sp.get("logo")
+    strip_h = 0
+    if logo:
+        from PIL import Image as _I
+        lw, lh = _I.open(LOGOS[logo]).size
+        strip_h = r4.even(lh + 24)
+    game_h = H - CAM_H - strip_h
     gw = r4.even(min(sw, sh * W / game_h))
     gx = r4.even(min(max(0, (sw - gw) / 2 + sp.get("game_shift", 0) * sw), sw - gw))
     rc = climax - t0
@@ -147,13 +179,13 @@ def main():
     base = os.path.join(tmp, "base.mp4")
     if sp.get("full"):  # IRL / single-camera source: one 9:16 crop, punch-in on the climax
         fx = sp.get("full_x", 0.5)
-        cw9 = r4.even(min(sw, sh * W / H)); cx9 = r4.even(min(max(0, sw * fx - cw9 / 2), sw - cw9))
-        zpf = zp.replace(f"s={W}x{CAM_H}", f"s={W}x{H}")
-        fc = (f"[0:v]fps={FPS},crop={cw9}:{sh}:{cx9}:0,scale={W}:{H}:flags=lanczos,{zpf}[v];[0:a]aresample=48000[a0]")
+        cw9 = r4.even(min(sw, sh * W / (H - strip_h))); cx9 = r4.even(min(max(0, sw * fx - cw9 / 2), sw - cw9))
+        zpf = zp.replace(f"s={W}x{CAM_H}", f"s={W}x{H - strip_h}")
+        fc = (f"[0:v]fps={FPS},crop={cw9}:{sh}:{cx9}:0,scale={W}:{H - strip_h}:flags=lanczos,{zpf},pad={W}:{H}:0:0:black[v];[0:a]aresample=48000[a0]")
     else:
       fc = (f"[0:v]fps={FPS},split=2[a][b];"
           f"[a]crop={cam[0]}:{cam[1]}:{cam[2]}:{cam[3]},scale={W}:{CAM_H}:flags=lanczos,{zp}[cam];"
-          f"[b]crop={gw}:{sh}:{gx}:0,scale={W}:{game_h}:flags=lanczos[game];[cam][game]vstack[v];"
+          f"[b]crop={gw}:{sh}:{gx}:0,scale={W}:{game_h}:flags=lanczos[game];[cam][game]vstack,pad={W}:{H}:0:0:black[v];"
           f"[0:a]aresample=48000[a0]")
     run(["ffmpeg", "-v", "error", "-y", "-ss", f"{t0:.2f}", "-t", f"{t1 - t0:.2f}", "-i", src, "-filter_complex", fc,
          "-map", "[v]", "-map", "[a0]", "-c:v", "libx264", "-preset", "veryfast", "-crf", "14", "-c:a", "pcm_s16le",
@@ -187,10 +219,21 @@ def main():
     hook_png = os.path.join(tmp, "hook.png")
     tw, th = title_png(sp["hook"], hook_png, size=sp.get("hook_size", 80), maxw=980)
     hy = r4.even(sp["hook_y"]) if "hook_y" in sp else (r4.even(150) if sp.get("full") else r4.even(CAM_H - th / 2))  # hook sits on the seam between cam and gameplay, below the face
-    chain = f"[vc][1:v]overlay=(W-w)/2:{hy}[vh]"
-    last = "vh"
+    chain = "[vc]null[v0]"
+    last = "v0"
     inputs = ["-i", base, "-loop", "1", "-i", hook_png]
     idx = 2
+    if sp.get("neon", True) and not sp.get("full"):
+        pat = neon_frames(os.path.join(tmp, "neon"), W, CAM_H)
+        inputs += ["-stream_loop", "-1", "-framerate", str(FPS), "-i", pat]
+        chain += f";[{last}][{idx}:v]overlay=0:0:shortest=1[vn]"
+        last = "vn"; idx += 1
+    if logo:
+        inputs += ["-loop", "1", "-i", LOGOS[logo]]
+        chain += f";[{last}][{idx}:v]overlay=(W-w)/2:{H - strip_h + 12}:shortest=1[vlogo]"
+        last = "vlogo"; idx += 1
+    chain += f";[{last}][1:v]overlay=(W-w)/2:{hy}[vh]"
+    last = "vh"
     if sp.get("overlay"):
         inputs += ["-loop", "1", "-i", sp["overlay"]]
         chain += f";[{idx}:v]scale={sp.get('overlay_w', 620)}:-1[lg];[{last}][lg]overlay=(W-w)/2:{int(H * 0.79)}[vl]"

@@ -76,3 +76,10 @@ Production notes 21 Nov (for the 22 Nov batch)
 - Good formats found: failed heist -> BUSTED/WASTED screen, plane crash -> FAILED screen. The game's own WASTED/BUSTED/FAILED card is a perfect visible payoff - search for it.
 - Dylan Page Day 3 (tvT6ZVHOtWs) facecam often shows a co-host (red cap) instead of Dylan -> not usable (Dylan must be visible). Check the cam before downloading more.
 - render5 fix: captions no longer linger over pauses (group split on >0.8 s gap; highlighted word max 0.6 s after it ends).
+
+## 2026-11-23 — new strategy (Mats)
+- From now on ONLY two campaigns: ClipUp logo + LUXDROP logo (see BRIEF). Old campaigns stopped.
+- Three accounts: SpottedGTA6, StreamSnipes Daily, ClipNation (TikTok + YouTube only). 4 clips per account per day, posted 18:00-21:00 hourly.
+- New source idea from Mats: trending YouTube compilations of streamers' GTA 6 moments = proven moments; trace them back to the original stream and make our own edit.
+- New signature look: animated neon border around the facecam (render5, on by default).
+- Known problem to keep watching: TikTok @spottedgta6 had 0% For You traffic and Content Rewards could not read its posts (21 Nov). LUXDROP requires 10,000 views before any payout.

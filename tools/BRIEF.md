@@ -1,60 +1,52 @@
-# Clip brief (Mats, 20 Nov 2026) - follow strictly
+# BRIEF — operational rules (from 23 Nov 2026)
 
-What worked: ~25 s KreekCraft clips with a teasing caption (1,527 and 1,701 IG views, ~30% swipe-away in first 3 s). Raw 22-46 s Kai clips got 2-19 views.
+The full strategy is in `tools/MASTER_INSTRUCTIONS.md` (Mats's master instructions — read it every run, it wins over this file if they differ).
+What works / what doesn't: `tools/LEARNINGS.md`. Every published video: `tools/history.csv`. Competitor research: `tools/competitors.csv`.
+Older campaigns (KreekCraft, Kai Cenat, Clix, Dylan Page, Gattouz) are FINISHED for us — never make content for them again.
 
-## Volume and mix (Brussels time)
-- Account 1 (TikTok + Instagram @spottedgta6 + YouTube Spotted GTA6): 6 clips/day at 14:00, 16:00, 18:00, 20:00, 22:00, 00:00 (00:00 = next calendar day). Mix: 4 KreekCraft, 1 Kai Cenat, 1 Clix. Suggested order: 14 Kreek, 16 Kreek, 18 Kai, 20 Kreek, 22 Clix, 00 Kreek.
-- Account 2 (TikTok @streamsnipes.dail, Instagram + YouTube @streamsnipessdaily): 3 clips/day at 15:00, 19:00, 23:00, mostly KreekCraft (default 3 KreekCraft).
-- Every account gets its OWN clips: never the same clip on two accounts on the same app. A KreekCraft clip may be posted at most 5 times in total across all accounts/apps.
+## Campaigns (ONLY these two)
+| | ClipUp — GTA VI ClipUp Logo | LUXDROP — LUXDROP Logo Clipping |
+|---|---|---|
+| Content Rewards | https://contentrewards.com/c/campaigns/802cf95a-ea84-4070-9a96-8a917831cb16 | https://contentrewards.com/c/campaigns/1b3065cb-29fd-4631-a252-ec3f6d28a583 |
+| Full rules | Google Doc 1GeUEJhQ8HRnExpB7hiz527q5b_1qkZKVN39dUfnAtGw (export?format=txt) | https://reachclipping.com/LUXDROP |
+| Source | any GTA 6 streamer gameplay ("post only streamer gameplay") | any GTA 6 gameplay/stream from BIG streamers (avg ≥ 3,000 viewers) |
+| Logo | `logos_use/clipup.png` (official file, proportionally scaled, never recoloured/cropped/stretched), whole clip, never covered by captions, facecam, map or HUD | `logos_use/luxdrop.png` (official Watermark-2, native size) whole clip. **No other logos of any kind** on LUXDROP videos |
+| Caption | must contain `#gta6 #Clipup` | must contain `#LUXDROP` |
+| Pays | $0.30/1K Tier-1 views (US/UK/CA/AU), from 3,000 views, max $150; engagement ≥ 0.5% (likes+comments) | $0.75/1K, from 10,000 views (MVR), max $300; ≥ 50% audience US/CA/AU/UK/NZ |
+| Other | keep posts up ≥ 60 days; no reuploads showing another creator's watermark; Instagram: upload analytics via https://forms.gle/3pwRKfejyz79vKtAA once min views reached (tell Mats) | no negative portrayal of LUXDROP; no botting/reposts/collab posts; no AI-generated content; English captions/on-screen text only; no misleading thumbnails |
+| Submit | within 30 min of posting | within 30 min of posting |
 
-## Campaign rules (breaking = rejected)
-KreekCraft ($1/1K views, min payout $5 -> needs 5K+ views): logo overlay (kreek_overlay.png) clearly visible the WHOLE clip; only his official GTA 6 streams/replays; caption must contain "Watch KreekCraft on YouTube and Twitch" and "#GTA6 #KreekCraft #GrandTheftAutoVI"; hook in first 1-2 s; no low-effort recordings/random gameplay; original edits, no fake context or misleading titles; >=0.8% engagement, likes visible; posts stay public 30 days; >=40% US/UK/CA/AU viewers.
-Kai Cenat: Kai playing GTA 6 is the main focus, from his GTA 6 marathon; caption contains #KaiCenat; needs 1K views per clip.
-Clix: from his GTA 6 marathon; caption contains #clix; 500 views per clip; full rules reachclipping.com/ClixGTA.
+A video is made for ONE campaign (its logo decides). Never put both logos on one video. Never submit a ClipUp-logo video to LUXDROP or vice versa.
+render5: `"logo": "clipup"` or `"logo": "luxdrop"` adds the logo strip under the gameplay (nothing covers it).
 
-## Editing (render5.py does most of this)
-1. Open on the peak moment (cold open), cut all setup before it.
-2. Hook text 0-2 s, 4-8 words, big, high contrast, with STAKES / a bet / a challenge ("bet a FREE copy of GTA 6 he wouldn't get eaten by a crocodile", "went shark hunting").
-3. Length 20-30 s; cut pauses > 0.4 s, walking, menus, loading.
-4. Word-by-word captions for all speech, clear of bottom 20% and right edge.
-5. 1080x1920, facecam top, gameplay below cropped to the action, streamer overlay kept in frame, no black bars/blur.
-6. Visible edit: punch-in zoom on reaction, SFX on key beats, short replay of the best moment (cold open does this).
-7. End on the punchline, no outro; loop back if possible.
-8. Mute/avoid copyrighted music (in-game radio, stream music) - skip clips where music is prominent.
-9. Never use these words in titles/captions/on-screen text: vape, drugs, weed, drunk, sexual words, slurs.
+## Accounts and daily slots (Brussels time; 4 clips per account: 2 ClipUp + 2 LUXDROP)
+| Account | Platforms | Slots |
+|---|---|---|
+| SpottedGTA6 (GTA VI moments, NPCs, discoveries, reactions) | TikTok @spottedgta6, Instagram @spottedgta6, YouTube "Spotted GTA6" | 18:00, 19:00, 20:00, 21:00 |
+| StreamSnipes Daily (personality: Speed, Kai, OhnePixel, big streamers; conversations, reactions, interactions) | TikTok @streamsnipes.dail, Instagram + YouTube @streamsnipessdaily | 18:00, 19:00, 20:00, 21:00 |
+| ClipNation (curated best GTA VI streamer moments, broad mix) | TikTok + YouTube only (no Instagram) — needs `setup_clipnation.command` run once on the Mac | 18:00, 19:00, 20:00, 21:00 |
+Each account gets its OWN clips (never the same moment on two accounts). The same video goes to all platforms of ONE account.
+Target = 12 clips/day. Never fill a slot with a weak clip: leave it empty and say why.
 
-## Moments
-Pick: bets and challenges, animals, police chases, crashes, big fails, streamer losing it / screaming. Skip: calm exploring, menus, moments needing earlier context.
+## Where moments come from (in this order)
+1. **Trending YouTube compilations / highlight videos** of streamers playing GTA 6 (Mats's idea): search YouTube on the Mac shell (`python3 -m yt_dlp "ytsearch30:<streamer> GTA 6 funny moments" --flat-playlist --print "%(id)s %(view_count)s %(upload_date)s %(title)s"`), pick recent ones with high views, read their chapters/transcripts to find the moments, then **trace each moment to the streamer's original VOD/clip** (Twitch/YouTube/Kick) and clip from the ORIGINAL — never use a compilation's or another clipper's finished footage. Log the competitor/compilation in competitors.csv.
+2. Competitor clipping accounts (TikTok/Shorts/Reels in the GTA 6 streamer niche): their best-performing videos → reverse-search the original stream → our own edit.
+3. Twitch viewer clips sorted by views (yt-dlp `/clips?range=7d`), chat spikes (chatpeaks.py), loudness peaks — for the streamers' latest streams.
+Priority streamers: IShowSpeed, Kai Cenat, OhnePixel, then other big GTA 6 streamers (≥ 3,000 avg viewers for LUXDROP).
+YouTube blocks the cloud: run yt-dlp on the Mac shell (device_bash, in $HOME, each call < 170 s), copy results into ~/mnt/Documents/GTA6-page/media/… and device_stage_files them.
+
+## Editing (render5.py)
+- Signature **animated neon facecam border** is on by default (`"neon": false` to disable; automatically off in `"full"` mode = no facecam).
+- Cam box per streamer: measure on a frame; KreekCraft-style layout [x,y,w,h] relative. Check 1 fps strips: face visible, not covered by text, logo fully visible, captions in sync.
+- Duration per story (8-15 s single joke … 25-40 s escalation; `max_len`), hook visible in the first 1-2 s, payoff must be shown, end on the punchline. No whoosh. No IRL-only footage. No nudity/sexual content, no slurs in hooks/captions.
+- Score every candidate 0-100 with the rubric in MASTER_INSTRUCTIONS §7 + confidence + campaign eligibility. Publish ≥ 70 only (≥ 80 preferred).
 
 ## Captions
-One teasing line + required campaign line + required hashtags, end with a short question to drive comments ("Would you take that bet?"). Never #fyp or #reels.
+Teasing line ending with a question + campaign tags. ClipUp: `#gta6 #Clipup` + 2-3 specific tags. LUXDROP: `#LUXDROP #gta6` + 2-3 specific tags. English only. Never #fyp/#reels.
 
-## Extra campaigns (added 20 Nov)
-Per account per day: 2 Dylan Page + 2 Gattouz (on top of the 6 / 3 above).
-- Account 1 extra slots: 15:00 Dylan, 17:00 Gattouz, 19:00 Dylan, 21:00 Gattouz.
-- Account 2 extra slots: 16:00 Dylan, 18:00 Gattouz, 20:00 Dylan, 22:00 Gattouz.
-
-### Dylan Page ($1 CPM, TikTok/IG/YouTube) — campaign 39753a1a-f1f3-491b-a8f6-0cfee0af0c97
-- 120-hour GTA 6 marathon on YouTube, channel UCzPpbeK8ANcNKg5aoMB0miw (/streams). Dylan must be visible. Caption must include #DylanPage.
-- YouTube blocks the cloud: download on the Mac shell (device_bash) with `python3 -m yt_dlp` (pip install --user yt-dlp) in $HOME (deletes are blocked under mnt); `--download-sections "*START-END"`; copy result into ~/mnt/Documents/GTA6-page/media/dylan/src/ and device_stage_files it. Background processes die after each call: keep each call < 170 s.
-- Signals: live chat replay (`--write-subs --sub-langs live_chat`, ~20 s per VOD) -> W/LOL spikes.
-- Gameplay layout: cam top-right, spec cam [0.684,0.115,0.314,0.304], game_shift -0.12. IRL segments: spec "full": true, "full_x" (0-1 horizontal centre of Dylan), "cam": [0,0,1,1]; use "hook_y": 1480 if the hook would cover faces.
-- Dylan = blond guy (tank top / black long-sleeve); co-hosts Alex (beard, cap) and Elliot.
-
-### Gattouz / 1WIN ($0.35 CPM, min $35, TikTok + Instagram only) — campaign 0123c725-0bb8-49fc-b60a-5affd894b66d
-- Kick: https://kick.com/api/v2/channels/gattouz0/videos (VOD HLS 'source'), clips: /api/v2/channels/gattouz0/clips?sort=view&time=week, clip video_url via /api/v2/clips/<id>.
-- Signals: the VOD has English auto-subtitles: <source dir>/subtitles/en/playlist.m3u8 (download all .vtt, scan keywords). Avoid his many strip-club / nudist / sexual segments.
-- The 1WIN branding is his "1win" chain pendant: keep his chest in the cam crop and set "hook_y": 760 so the hook never covers it. Never add a logo.
-- Nov 19 layout cam top-left [0.0,-0.02,0.305,0.28]; Nov 18 cam top-left with girlfriend [0.04,-0.02,0.16,0.25] or bottom-left [0.085,0.66,0.22,0.3]. Check every day.
-- Captions in English (tr_en.py = whisper translate). Caption must tag @gattouze and disclose: "Gattouz is live on Kick: kick.com/gattouz0 @gattouze #ad" + "#Gattouz #GTA6 #GTAVI #1win".
-
-## Scheduling safety (added 20 Nov)
-- The Mac uploaders rewrite their CSV when they finish (TikTok acc 1 job at :40, account-2/YouTube job at :52). Rows appended while a job runs get LOST. Only edit the Mac CSVs between :00 and :35, then re-read them to confirm every new row is there.
-- No IRL content (Mats, 20 Nov): gameplay with facecam only. No whoosh / "shhh" SFX (removed from render5).
-- Pick FUN moments: a visible event with a payoff (crash, escape, fail, fight, scare, landing) and a loud reaction. Skip calm driving/talking clips.
-
-## Schedule from 22 Nov (Mats, 21 Nov: "focus even more on KreekCraft")
-- Account 1: 14 Kreek, 15 Dylan, 16 Kreek, 17 Gattouz, 18 Kreek, 19 Dylan, 20 Kreek, 21 Gattouz, 22 Kreek, 00 Kreek.
-- Account 2: 15 Kreek, 16 Dylan, 17 Kreek, 18 Gattouz, 19 Kreek, 20 Dylan, 21 Kreek, 22 Gattouz, 23 Kreek.
-- Kai Cenat / Clix only when there is an exceptional moment (then it replaces one Kreek slot). Otherwise all-KreekCraft in those slots.
-- Quality over quantity: if after a long search a slot has no clip that passes the bar in tools/LEARNINGS.md, leave the slot empty and say so. Never fill with a weak clip.
+## Mac scheduling files (tools/uploader/)
+Only edit between :00 and :35 (uploaders rewrite the files at :40 and :52), then re-read to confirm.
+- schedule.csv = TikTok SpottedGTA6 (scheduled inside TikTok by the :40 job)
+- schedule_acc2.csv = TikTok StreamSnipes; yt1_schedule.csv = YouTube SpottedGTA6; yt_schedule.csv = YouTube StreamSnipes
+- schedule_cn.csv = TikTok ClipNation; yt_cn_schedule.csv = YouTube ClipNation (posted by the :52 job when due)
+- Instagram (cloud task): repo ig_schedule.csv (SpottedGTA6) and ig2_schedule.csv (StreamSnipes), column caption = full caption.

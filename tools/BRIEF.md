@@ -32,7 +32,7 @@ Target = 12 clips/day. Never fill a slot with a weak clip: leave it empty and sa
 1. **Trending YouTube compilations / highlight videos** of streamers playing GTA 6 (Mats's idea): search YouTube on the Mac shell (`python3 -m yt_dlp "ytsearch30:<streamer> GTA 6 funny moments" --flat-playlist --print "%(id)s %(view_count)s %(upload_date)s %(title)s"`), pick recent ones with high views, read their chapters/transcripts to find the moments, then **trace each moment to the streamer's original VOD/clip** (Twitch/YouTube/Kick) and clip from the ORIGINAL — never use a compilation's or another clipper's finished footage. Log the competitor/compilation in competitors.csv.
 2. Competitor clipping accounts (TikTok/Shorts/Reels in the GTA 6 streamer niche): their best-performing videos → reverse-search the original stream → our own edit.
 3. Twitch viewer clips sorted by views (yt-dlp `/clips?range=7d`), chat spikes (chatpeaks.py), loudness peaks — for the streamers' latest streams.
-Priority streamers: IShowSpeed, Kai Cenat, OhnePixel, then other big GTA 6 streamers (≥ 3,000 avg viewers for LUXDROP).
+Priority streamers (Mats, 24 Nov): IShowSpeed, Kai Cenat, **OhnePixel and Jynxzi (use them EVERY day — at least 1 OhnePixel + 1 Jynxzi clip per day)**, then other big GTA 6 streamers (≥ 3,000 avg viewers for LUXDROP). Jynxzi (Twitch jynxzi, YouTube "Jynxzi Live"/clips) and OhnePixel (Twitch ohnepixel) are both big enough for LUXDROP.
 YouTube blocks the cloud: run yt-dlp on the Mac shell (device_bash, in $HOME, each call < 170 s), copy results into ~/mnt/Documents/GTA6-page/media/… and device_stage_files them.
 
 ## Editing (render5.py)

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Clip Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Poppins:wght@700;800&family=TikTok+Sans:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: a working control room for a clipping studio — quick, direct, no fluff.
+   IDEA: a stream-overlay editor / OBS scene panel; the phone preview is the "program" monitor.
+   PICTURE: the live 9:16 composition with the animated neon facecam border.
+   COLOUR and TYPE: deep violet ground, cyan core + violet glow + pink haze (the border's own colours); Anton titles, DM Sans text.
+   LAYOUT: top tab bar, each tab one working surface; editor = frame + controls left, phone right. */
+:root{color-scheme:light dark;--bg:light-dark(#f4f1fb,#120d22);--panel:light-dark(#ffffff,#1b1531);--line:light-dark(#ddd6ee,#2e2650);--ink:light-dark(#1a1430,#efeaff);--mut:light-dark(#62597d,#a89fca);--cy:light-dark(#0090a8,#22e3ff);--vi:#8c46ff;--pk:light-dark(#c2188a,#ff4fc8);--ok:light-dark(#11845b,#3ee19a);--warn:light-dark(#b45a00,#ffb24a)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "DM Sans",system-ui,sans-serif;overflow-x:clip}
+h1,h2{font-family:Anton,Impact,sans-serif;font-weight:400;letter-spacing:.01em;line-height:1.05;margin:0}
+h1{font-size:clamp(28px,4vw,40px)}h2{font-size:24px;margin-bottom:12px}
+header{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;padding:18px max(4vw,16px);border-bottom:1px solid var(--line);background:var(--panel)}
+header h1 span{color:var(--cy)}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+nav a{padding:10px 14px;border-radius:10px;color:var(--mut);text-decoration:none;font-weight:600;min-height:44px;display:flex;align-items:center}
+nav a.on{background:color-mix(in srgb,var(--vi) 18%,transparent);color:var(--ink);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--vi) 50%,transparent)}
+#st{margin-left:auto;font-size:13px;color:var(--mut)}
+main{padding:24px max(4vw,16px) 64px;max-width:1280px;margin:0 auto}
+section{display:none}section.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.big{font-family:Anton,sans-serif;font-size:clamp(30px,4vw,44px);line-height:1}
+.mut{color:var(--mut);font-size:14px}
+.bar{height:10px;border-radius:6px;background:color-mix(in srgb,var(--mut) 20%,transparent);overflow:hidden;margin:8px 0}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--cy),var(--vi),var(--pk))}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px;margin-top:12px}.tiles .big{font-size:clamp(26px,3.4vw,36px)}.pt{margin-top:12px;font-size:14px}.pt td,.pt th{padding:6px 4px}
+.kv{display:grid;grid-template-columns:1fr auto;gap:4px 12px;font-size:15px;margin-top:10px}.kv b{text-align:right;font-variant-numeric:tabular-nums}
+.days{display:flex;gap:4px;align-items:flex-end;height:70px;margin-top:12px}.days div{flex:1;background:var(--vi);border-radius:4px 4px 0 0;min-height:2px;position:relative}
+table{width:100%;border-collapse:collapse;font-size:15px}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:13px;color:var(--mut);font-weight:600}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.LUXDROP{background:color-mix(in srgb,var(--cy) 20%,transparent);color:var(--cy)}.ClipUp{background:color-mix(in srgb,var(--pk) 20%,transparent);color:var(--pk)}
+form,.row{display:flex;flex-wrap:wrap;gap:10px;align-items:end}
+label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--mut);font-weight:600}
+input,select,textarea,button{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-height:44px}
+textarea{min-height:84px;width:100%;resize:vertical}
+input[type=color]{padding:4px;width:56px}input[type=range]{padding:0;min-height:32px}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid var(--cy);outline-offset:2px}
+button{cursor:pointer;font-weight:700;background:var(--vi);color:#fff;border:0}button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.list{display:grid;gap:10px;margin-top:16px}.item{display:grid;gap:4px}.item a{color:var(--cy);overflow-wrap:anywhere}
+.reply{border-left:3px solid var(--cy);padding-left:10px;font-size:14px}
+.ed{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,360px);gap:20px;align-items:start}
+.fw{position:relative;border-radius:12px;overflow:hidden;background:#000;aspect-ratio:16/9;touch-action:none;cursor:crosshair}
+.fw canvas{position:absolute;inset:0;width:100%;height:100%}
+.phone{position:sticky;top:12px;border-radius:28px;padding:10px;background:#0b0816;box-shadow:0 20px 50px -20px #000}
+.phone canvas{display:block;width:100%;aspect-ratio:9/16;border-radius:20px}
+fieldset{border:1px solid var(--line);border-radius:12px;padding:12px;margin:12px 0 0;display:flex;flex-wrap:wrap;gap:10px}
+legend{font-weight:700;padding:0 6px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+@media(max-width:860px){.ed{grid-template-columns:1fr}.phone{position:static;max-width:300px;margin:0 auto}}
+@media(max-width:600px){#st{margin-left:0;width:100%}table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:7em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:6.5em;margin-inline-start:-7em;color:var(--mut)}.stack td:empty{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+<header>
+ <h1>Clip <span>Desk</span></h1>
+ <nav id="nav">
+  <a href="#overzicht">Overzicht</a><a href="#clips">Clips</a><a href="#bronnen">Compilaties</a><a href="#planning">Planning</a><a href="#feedback">Feedback</a><a href="#editor">Editor</a>
+ </nav>
+ <div id="st">Verbinden…</div>
+</header>
+<main>
+<section id="s-overzicht">
+ <h2>Progress per account</h2>
+ <div class="grid3" id="accs"><div class="card mut">Nog geen cijfers. Claude vult dit na de avondcheck.</div></div>
+ <p class="mut" id="upd"></p>
+</section>
+
+<section id="s-clips">
+ <div class="row" style="justify-content:space-between;margin-bottom:12px"><h2 style="margin:0">Clips</h2>
+  <div class="row"><label>Account<select id="fAcc"><option value="">Alle</option></select></label><label>Datum<select id="fDay"><option value="">Alle</option></select></label></div></div>
+ <div class="card" style="padding:0 8px"><table class="stack"><thead><tr><th>Tijd</th><th>Account</th><th>Clip</th><th>Campagne</th><th>Score</th><th>Status</th><th>Views</th><th>Likes</th><th></th></tr></thead><tbody id="clipRows"><tr><td colspan="9" class="mut">Nog geen clips.</td></tr></tbody></table></div>
+ <div class="card" id="clipFb" style="display:none;margin-top:16px"><h2 id="clipFbT">Feedback</h2><textarea id="clipFbX" placeholder="Wat moet beter aan deze clip? (hook, timing, cam, ondertitels…)"></textarea><div class="row" style="margin-top:8px"><button id="clipFbS">Opslaan</button><button class="ghost" id="clipFbC">Annuleren</button></div></div>
+</section>
+
+<section id="s-bronnen">
+ <h2>Compilaties &amp; bronnen</h2>
+ <p class="mut">Plak een YouTube-compilatie (of TikTok/Twitch-link). Claude zoekt de momenten in de originele stream en maakt er eigen clips van.</p>
+ <form id="srcF" class="card">
+  <label style="flex:2 1 280px">Link<input id="srcU" type="url" required placeholder="https://www.youtube.com/watch?v=…"></label>
+  <label style="flex:1 1 160px">Streamer(s)<input id="srcS" placeholder="bv. Speed, Jynxzi"></label>
+  <label>Prioriteit<select id="srcP"><option value="hoog">Hoog (eerst)</option><option value="normaal" selected>Normaal</option></select></label>
+  <label style="flex:1 1 100%">Notitie<input id="srcN" placeholder="bv. het moment op 3:40 is goud"></label>
+  <button>Toevoegen</button>
+ </form>
+ <div class="list" id="srcL"></div>
+</section>
+
+<section id="s-planning">
+ <h2>Planning: wanneer uploaden per account</h2>
+ <p class="mut">Zet uren aan of uit per account. Claude plant de clips voor de volgende productie op deze uren (en zet de Instagram-, TikTok- en YouTube-planning erop).</p>
+ <div class="grid3" id="plan"></div>
+ <div class="row" style="margin-top:14px"><button id="planS" type="button">Planning opslaan</button><span class="mut" id="planU"></span></div>
+</section>
+
+<section id="s-feedback">
+ <h2>Feedback voor Claude</h2>
+ <form id="fbF" class="card">
+  <label>Soort<select id="fbK"><option>Content</option><option>Hook</option><option>Ondertitels</option><option>Facecam / layout</option><option>Captions &amp; hashtags</option><option>Planning</option><option>Anders</option></select></label>
+  <label style="flex:1 1 100%">Wat moet beter?<textarea id="fbX" required placeholder="bv. de clips duren te lang, max 30 s"></textarea></label>
+  <button>Opslaan</button>
+ </form>
+ <div class="list" id="fbL"></div>
+</section>
+
+<section id="s-editor">
+ <div class="row" style="justify-content:space-between;margin-bottom:12px"><h2 style="margin:0">Editor</h2>
+  <div class="row"><label>Streamer<select id="pSel"></select></label><label>Nieuwe streamer<input id="pNew" placeholder="naam"></label><button class="ghost" id="pAdd" type="button">+ Toevoegen</button></div></div>
+ <div class="ed">
+  <div>
+   <div class="card">
+    <div class="row" style="justify-content:space-between"><strong>Facecam: sleep een kader op het frame</strong><label class="ghost">Frame uploaden (screenshot van de stream)<input id="fUp" type="file" accept="image/*"></label></div>
+    <div class="fw" id="fw" style="margin-top:10px"><canvas id="fc"></canvas></div>
+    <p class="mut" id="camTxt">Nog geen frame. Upload een screenshot van de stream (16:9).</p>
+    <label>Gameplay naar links/rechts schuiven<input id="gShift" type="range" min="-0.3" max="0.3" step="0.01" value="0"></label>
+   </div>
+   <fieldset><legend>Facecam-rand</legend>
+    <label>Aan<select id="bOn"><option value="1">Aan</option><option value="0">Uit</option></select></label>
+    <label>Kern<input type="color" id="bCore" value="#00e1ff"></label><label>Gloed<input type="color" id="bGlow" value="#8c46ff"></label><label>Waas<input type="color" id="bHaze" value="#ff46c8"></label>
+    <label>Dikte<input type="range" id="bThick" min="2" max="16" value="7"></label><label>Hoeken<input type="range" id="bRad" min="0" max="80" value="36"></label>
+    <label>Puls<select id="bPulse"><option value="1">Aan</option><option value="0">Uit</option></select></label>
+   </fieldset>
+   <fieldset><legend>Ondertitels</legend>
+    <label>Hoogte<input type="range" id="cY" min="0.40" max="0.86" step="0.005" value="0.585"></label>
+    <label>Font<select id="cFont"><option>TikTok Sans</option><option>Anton</option><option>Poppins</option></select></label>
+    <label>Grootte<input type="range" id="cSize" min="50" max="140" value="92"></label>
+    <label>Tekst<input type="color" id="cCol" value="#ffffff"></label><label>Actief woord<input type="color" id="cHi" value="#fff000"></label><label>Rand<input type="color" id="cOut" value="#000000"></label>
+    <label>Randdikte<input type="range" id="cOw" min="0" max="14" value="8"></label>
+    <label>Woorden per keer<select id="cWords"><option>1</option><option>2</option><option selected>3</option></select></label>
+    <label>HOOFDLETTERS<select id="cUp"><option value="1">Ja</option><option value="0">Nee</option></select></label>
+   </fieldset>
+   <fieldset><legend>Hook-tekst</legend>
+    <label>Achtergrond<input type="color" id="hBg" value="#ffffff"></label><label>Tekst<input type="color" id="hCol" value="#000000"></label><label>Grootte<input type="range" id="hSize" min="50" max="110" value="80"></label>
+   </fieldset>
+   <div class="row" style="margin-top:14px"><button id="saveP" type="button">Opslaan voor deze streamer</button><button id="saveG" class="ghost" type="button">Opslaan als standaard voor iedereen</button></div>
+   <p class="mut">Claude gebruikt de streamer-instelling als die bestaat, anders de standaard.</p>
+  </div>
+  <div class="phone"><canvas id="pc" width="540" height="960"></canvas></div>
+ </div>
+</section>
+</main>
+<div class="toast" id="toast"></div>
+<script>
+{
+const $=s=>document.querySelector(s), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const safeUrl=u=>/^https:\/\//.test(String(u||''))?String(u):'';
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),2200)};
+const tabs=['overzicht','clips','bronnen','planning','feedback','editor'];
+function route(){const h=(location.hash||'#overzicht').slice(1),k=tabs.includes(h)?h:'overzicht';tabs.forEach(t=>{$('#s-'+t).classList.toggle('on',t===k)});document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+k));if(k==='editor')drawAll()}
+addEventListener('hashchange',route);
+const DEF={border:{on:true,core:'#00e1ff',glow:'#8c46ff',haze:'#ff46c8',thick:7,radius:36,pulse:true},captions:{y:0.585,font:'TikTok Sans',size:92,color:'#ffffff',highlight:'#fff000',outline:'#000000',outlineW:8,words:3,upper:true},hook:{bg:'#ffffff',color:'#000000',size:80}};
+let db=null,clips=[],sources=[],fbs=[],presets={},glob=null,stats=null,cur=null,fbClip=null;
+const W=1080,H=1920,CAMH=730,STRIP=213;
+// ---------- overview
+function nf(v){return (+v||0).toLocaleString('nl-BE')}
+function renderAccs(){
+ const box=$('#accs');
+ if(!stats||!stats.accounts||!stats.accounts.length){box.innerHTML='<div class="card mut">Nog geen cijfers.</div>';return}
+ box.innerHTML=stats.accounts.map(a=>{const days=a.days||[],mx=Math.max(1,...days.map(d=>+d.views||0)),pl=a.perPlatform||[];
+  return `<div class="card"><div class="row" style="justify-content:space-between"><strong style="font-size:19px">${esc(a.name)}</strong><span class="mut">${esc(a.platforms||'')}</span></div>
+  <div class="tiles"><div><div class="big">${nf(a.videos)}</div><div class="mut">video's online</div></div><div><div class="big">$${(+a.earnings||0).toFixed(2)}</div><div class="mut">verdiend</div></div><div><div class="big">${nf(a.views)}</div><div class="mut">views totaal</div></div><div><div class="big">${nf(a.likes)}</div><div class="mut">likes totaal</div></div></div>
+  ${pl.length?`<table class="pt"><thead><tr><th>Platform</th><th class="n">Video's</th><th class="n">Views</th><th class="n">Likes</th></tr></thead><tbody>${pl.map(p=>`<tr><td>${esc(p.p)}</td><td class="n">${nf(p.videos)}</td><td class="n">${nf(p.views)}</td><td class="n">${nf(p.likes)}</td></tr>`).join('')}</tbody></table>`:''}
+  <div class="kv"><span>Ingediend / goedgekeurd</span><b>${nf(a.submitted)} / ${nf(a.approved)}</b><span>Beste video</span><b>${esc(a.best||'–')}</b></div>
+  ${days.length?`<div class="mut" style="margin-top:12px">Views per dag (laatste 7 dagen, per postdatum)</div><div class="days">${days.map(d=>`<div style="height:${Math.round((+d.views||0)/mx*100)}%" title="${esc(d.date)}: ${+d.views||0}"></div>`).join('')}</div>`:''}</div>`}).join('');
+ $('#upd').textContent=stats.updated?'Bijgewerkt: '+stats.updated+' · ververst elk uur':'';
+}
+// ---------- clips
+function renderClips(){
+ const accs=[...new Set(clips.map(c=>c.account))],dys=[...new Set(clips.map(c=>c.date))].sort().reverse();
+ const fa=$('#fAcc'),fd=$('#fDay'),va=fa.value,vd=fd.value;
+ fa.innerHTML='<option value="">Alle</option>'+accs.map(a=>`<option>${esc(a)}</option>`).join('');fa.value=va;
+ fd.innerHTML='<option value="">Alle</option>'+dys.map(d=>`<option>${esc(d)}</option>`).join('');fd.value=vd||'';
+ const rows=clips.filter(c=>(!fa.value||c.account===fa.value)&&(!fd.value||c.date===fd.value)).sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time));
+ $('#clipRows').innerHTML=rows.length?rows.map(c=>{const n=fbs.filter(f=>f.clip===c.id).length;const links=(c.links||[]).map(l=>safeUrl(l.url)?`<a href="${esc(safeUrl(l.url))}" target="_blank" rel="noopener">${esc(l.p)}</a>`:'').join(' ');
+  return `<tr><td>${esc(c.date)} ${esc(c.time)}</td><td>${esc(c.account)}</td><td><strong>${esc(c.title)}</strong><br><span class="mut">${esc(c.streamer)}</span> ${links}</td><td><span class="tag ${esc(c.campaign)}">${esc(c.campaign)}</span></td><td class="n">${c.score??''}</td><td>${esc(c.status||'')}</td><td class="n" title="${esc((c.perPlatform||[]).map(p=>p.p+': '+(p.views??'?')).join(' · '))}">${c.views!=null?nf(c.views):'–'}${(c.perPlatform||[]).length?`<br><span class="mut" style="font-size:12px">${esc(c.perPlatform.map(p=>p.p[0]+' '+(p.views??'?')).join(' · '))}</span>`:''}</td><td class="n">${c.likes!=null?nf(c.likes):'–'}</td><td><button class="ghost" data-fb="${esc(c.id)}">${n?'Feedback ('+n+')':'Feedback'}</button></td></tr>`}).join(''):'<tr><td colspan="9" class="mut">Geen clips voor deze filter.</td></tr>';
+}
+$('#fAcc').onchange=renderClips;$('#fDay').onchange=renderClips;
+$('#clipRows').onclick=e=>{const id=e.target.closest('[data-fb]')?.dataset.fb;if(!id)return;fbClip=clips.find(c=>c.id===id);$('#clipFbT').textContent='Feedback: '+(fbClip?.title||'');$('#clipFbX').value='';$('#clipFb').style.display='block';$('#clipFbX').focus()};
+$('#clipFbC').onclick=()=>{$('#clipFb').style.display='none'};
+$('#clipFbS').onclick=async()=>{const t=$('#clipFbX').value.trim();if(!t||!fbClip)return;await add('feedback',{text:t,kind:'Clip',clip:fbClip.id,clipTitle:fbClip.title,status:'nieuw',added:new Date().toISOString()});$('#clipFb').style.display='none';toast('Feedback opgeslagen')};
+// ---------- planning
+const ACCS=[{name:'SpottedGTA6',platforms:'TikTok · Instagram · YouTube'},{name:'StreamSnipes Daily',platforms:'TikTok · Instagram · YouTube'},{name:'ClipNation',platforms:'TikTok · YouTube'}];
+const HOURS=Array.from({length:24},(_,h)=>String(h).padStart(2,'0')+':00');
+let plan=null,planDirty=false;
+function planOf(n){const a=(plan&&plan.accounts||[]).find(x=>x.name===n);return a||{name:n,active:true,times:['18:00','19:00','20:00','21:00'],mix:'2 ClipUp + 2 LUXDROP'}}
+function renderPlan(){if(planDirty)return;$('#plan').innerHTML=ACCS.map((a,i)=>{const p=planOf(a.name);return `<div class="card" data-acc="${i}"><div class="row" style="justify-content:space-between"><strong>${esc(a.name)}</strong><label style="flex-direction:row;align-items:center;gap:8px">Actief<input type="checkbox" class="pa" ${p.active?'checked':''} style="min-height:auto;width:22px;height:22px"></label></div><div class="mut">${esc(a.platforms)}</div>
+ <div class="row" style="margin-top:10px;gap:6px">${HOURS.map(h=>`<button type="button" class="${p.times.includes(h)?'':'ghost'} ph" data-h="${h}" style="min-width:64px;padding:8px">${h}</button>`).join('')}</div>
+ <div class="mut pc" style="margin-top:8px">${p.times.length} upload${p.times.length===1?'':'s'} per dag</div>
+ <label style="margin-top:8px">Verdeling campagnes<select class="pm">${['2 ClipUp + 2 LUXDROP','Alles ClipUp','Alles LUXDROP','Meer LUXDROP','Meer ClipUp'].map(o=>`<option ${o===p.mix?'selected':''}>${o}</option>`).join('')}</select></label></div>`}).join('');
+ $('#planU').textContent=plan&&plan.updated?'Laatst opgeslagen: '+plan.updated.slice(0,16).replace('T',' '):'Nog niet opgeslagen (standaard 18–21u)'}
+$('#plan').onclick=e=>{const b=e.target.closest('.ph');if(!b)return;b.classList.toggle('ghost');planDirty=true;const c=b.closest('.card');const n=c.querySelectorAll('.ph:not(.ghost)').length;c.querySelector('.pc').textContent=n+' upload'+(n===1?'':'s')+' per dag'};
+$('#plan').onchange=()=>{planDirty=true};
+$('#planS').onclick=async()=>{if(!db){toast('Geen verbinding');return}const accounts=[...document.querySelectorAll('#plan .card')].map(c=>({name:ACCS[+c.dataset.acc].name,active:c.querySelector('.pa').checked,times:[...c.querySelectorAll('.ph:not(.ghost)')].map(b=>b.dataset.h),mix:c.querySelector('.pm').value}));
+ try{await db.doc('schedule/accounts').set({accounts,updated:new Date().toISOString()});planDirty=false;toast('Planning opgeslagen')}catch(e){toast('Opslaan mislukt')}};
+// ---------- sources & feedback
+function itemHtml(x,top,sub){return `<div class="card item"><div class="row" style="justify-content:space-between"><div>${top}</div><span class="tag ${x.status==='gebruikt'?'LUXDROP':x.status==='afgewezen'?'ClipUp':''}">${esc(x.status||'nieuw')}</span></div>${sub}${x.reply?`<div class="reply"><strong>Claude:</strong> ${esc(x.reply)}</div>`:''}<div class="row"><span class="mut">${esc((x.added||'').slice(0,16).replace('T',' '))}</span><button class="ghost" data-del="${esc(x._c)}/${esc(x.id)}">Verwijderen</button></div></div>`}
+function renderSrc(){const L=[...sources].sort((a,b)=>(a.priority==='hoog'?0:1)-(b.priority==='hoog'?0:1)||String(b.added).localeCompare(a.added));
+ $('#srcL').innerHTML=L.length?L.map(s=>itemHtml(s,`${safeUrl(s.url)?`<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a>`:esc(s.url)}`,`<div>${s.priority==='hoog'?'<strong>Hoge prioriteit</strong> · ':''}${esc(s.streamers||'')}${s.note?' — '+esc(s.note):''}</div>`)).join(''):'<p class="mut">Nog geen compilaties.</p>'}
+function renderFb(){const L=[...fbs].sort((a,b)=>String(b.added).localeCompare(a.added));
+ $('#fbL').innerHTML=L.length?L.map(f=>itemHtml(f,`<strong>${esc(f.kind)}</strong>${f.clipTitle?' · '+esc(f.clipTitle):''}`,`<div>${esc(f.text)}</div>`)).join(''):'<p class="mut">Nog geen feedback.</p>'}
+document.addEventListener('click',async e=>{const d=e.target.closest('[data-del]')?.dataset.del;if(!d||!db)return;const[c,id]=d.split('/');try{await db.collection(c).doc(id).delete();toast('Verwijderd')}catch(err){toast('Kon niet verwijderen')}});
+async function add(c,data){if(!db){toast('Geen verbinding');return}try{await db.collection(c).add(data)}catch(e){toast(e.code==='quota_exceeded'?'Database vol':'Opslaan mislukt')}}
+$('#srcF').onsubmit=async e=>{e.preventDefault();const u=$('#srcU').value.trim();if(!/^https:\/\//.test(u)){toast('Link moet met https:// beginnen');return}await add('sources',{url:u,streamers:$('#srcS').value.trim(),priority:$('#srcP').value,note:$('#srcN').value.trim(),status:'nieuw',added:new Date().toISOString()});e.target.reset();toast('Toegevoegd')};
+$('#fbF').onsubmit=async e=>{e.preventDefault();const t=$('#fbX').value.trim();if(!t)return;await add('feedback',{text:t,kind:$('#fbK').value,status:'nieuw',added:new Date().toISOString()});e.target.reset();toast('Feedback opgeslagen')};
+// ---------- editor
+const fc=$('#fc'),pc=$('#pc'),fw=$('#fw');let img=null,camR=null,drag=null;
+const ids={bOn:['border','on','b'],bCore:['border','core'],bGlow:['border','glow'],bHaze:['border','haze'],bThick:['border','thick','n'],bRad:['border','radius','n'],bPulse:['border','pulse','b'],cY:['captions','y','n'],cFont:['captions','font'],cSize:['captions','size','n'],cCol:['captions','color'],cHi:['captions','highlight'],cOut:['captions','outline'],cOw:['captions','outlineW','n'],cWords:['captions','words','n'],cUp:['captions','upper','b'],hBg:['hook','bg'],hCol:['hook','color'],hSize:['hook','size','n']};
+function styleOf(p){const g=glob||DEF,s=p&&p.style?p.style:{},o={};for(const k of['border','captions','hook'])o[k]={...DEF[k],...(g[k]||{}),...(s[k]||{})};return o}
+function readForm(){const o={border:{},captions:{},hook:{}};for(const[id,[g,k,t]]of Object.entries(ids)){const v=$('#'+id).value;o[g][k]=t==='n'?+v:t==='b'?v==='1':v}return o}
+function fillForm(st){for(const[id,[g,k,t]]of Object.entries(ids)){const v=st[g][k];$('#'+id).value=t==='b'?(v?'1':'0'):String(v)}}
+const AR=(W/CAMH)/(16/9); // cam rect: w/h in frame fractions
+function loadPreset(name){cur=name;const p=presets[name]||{};camR=p.cam?[...p.cam]:null;$('#gShift').value=p.gameShift||0;fillForm(styleOf(p));img=null;
+ if(p.frame&&/^data:image\//.test(p.frame)){const i=new Image();i.onload=()=>{img=i;drawAll()};i.src=p.frame}else drawAll();
+ $('#camTxt').textContent=p.frame?'Sleep een nieuw kader om de facecam te verplaatsen.':'Nog geen frame. Upload een screenshot van de stream (16:9).'}
+function renderPresets(){const s=$('#pSel'),names=Object.keys(presets).sort();const v=cur&&names.includes(cur)?cur:names[0];s.innerHTML=names.map(n=>`<option>${esc(n)}</option>`).join('')||'<option value="">(geen)</option>';if(v){s.value=v;if(v!==cur)loadPreset(v)}else drawAll()}
+$('#pSel').onchange=e=>loadPreset(e.target.value);
+$('#pAdd').onclick=()=>{const n=$('#pNew').value.trim();if(!n)return;if(!presets[n])presets[n]={name:n};$('#pNew').value='';renderPresets();$('#pSel').value=n;loadPreset(n)};
+$('#fUp').onchange=e=>{const f=e.target.files[0];if(!f)return;const i=new Image();i.onload=()=>{const c=document.createElement('canvas');c.width=960;c.height=540;c.getContext('2d').drawImage(i,0,0,960,540);const u=c.toDataURL('image/jpeg',0.72);const j=new Image();j.onload=()=>{img=j;if(cur){presets[cur]={...(presets[cur]||{name:cur}),frame:u}}drawAll()};j.src=u;URL.revokeObjectURL(i.src)};i.src=URL.createObjectURL(f)};
+function fpos(e){const r=fc.getBoundingClientRect();return[(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height]}
+fw.onpointerdown=e=>{if(!img)return;fw.setPointerCapture(e.pointerId);const[x,y]=fpos(e);if(camR&&x>camR[0]&&x<camR[0]+camR[2]&&y>camR[1]&&y<camR[1]+camR[3])drag={m:1,dx:x-camR[0],dy:y-camR[1]};else drag={m:0,x0:x,y0:y}};
+fw.onpointermove=e=>{if(!drag)return;let[x,y]=fpos(e);if(drag.m){camR[0]=Math.min(Math.max(0,x-drag.dx),1-camR[2]);camR[1]=Math.min(Math.max(0,y-drag.dy),1-camR[3])}else{let w=Math.max(0.04,Math.abs(x-drag.x0));let h=w/AR;if(h>1){h=1;w=h*AR}const x0=x<drag.x0?drag.x0-w:drag.x0,y0=y<drag.y0?drag.y0-h:drag.y0;camR=[Math.min(Math.max(0,x0),1-w),Math.min(Math.max(0,y0),1-h),w,h]}drawAll()};
+fw.onpointerup=()=>{drag=null};
+document.querySelectorAll('#s-editor input,#s-editor select').forEach(el=>{if(el.id!=='fUp'&&el.id!=='pNew'&&el.id!=='pSel')el.addEventListener('input',drawAll)});
+function drawFrame(){const r=fc.getBoundingClientRect(),dpr=devicePixelRatio||1;fc.width=Math.round(r.width*dpr);fc.height=Math.round(r.height*dpr);const x=fc.getContext('2d');x.clearRect(0,0,fc.width,fc.height);if(!img)return;x.drawImage(img,0,0,fc.width,fc.height);if(camR){const[a,b,c,d]=camR.map((v,i)=>v*(i%2?fc.height:fc.width));x.fillStyle='rgba(0,0,0,.45)';x.fillRect(0,0,fc.width,fc.height);x.drawImage(img,camR[0]*img.width,camR[1]*img.height,camR[2]*img.width,camR[3]*img.height,a,b,c,d);x.strokeStyle='#22e3ff';x.lineWidth=3*dpr;x.strokeRect(a,b,c,d);$('#camTxt').textContent='Facecam: '+camR.map(v=>(v*100).toFixed(1)+'%').join(' · ')+' — sleep om te verplaatsen, sleep buiten het kader voor een nieuw kader.'}}
+function rr(x,a,b,w,h,r){x.beginPath();x.roundRect?x.roundRect(a,b,w,h,r):x.rect(a,b,w,h)}
+let t0=performance.now();
+function drawPhone(){const st=readForm(),x=pc.getContext('2d'),s=pc.width/W;x.save();x.scale(s,s);x.fillStyle='#000';x.fillRect(0,0,W,H);
+ const gameH=H-CAMH-STRIP;
+ if(img){if(camR){x.drawImage(img,camR[0]*img.width,camR[1]*img.height,camR[2]*img.width,camR[3]*img.height,0,0,W,CAMH)}
+  const gw=Math.min(img.width,img.height*W/gameH),gx=Math.min(Math.max(0,(img.width-gw)/2+(+$('#gShift').value)*img.width),img.width-gw);x.drawImage(img,gx,0,gw,img.height,0,CAMH,W,gameH)}
+ else{x.fillStyle='#1b1531';x.fillRect(0,0,W,CAMH);x.fillStyle='#2e2650';x.fillRect(0,CAMH,W,gameH);x.fillStyle='#a89fca';x.font='600 40px "DM Sans"';x.textAlign='center';x.fillText('Upload een frame',W/2,CAMH/2)}
+ const b=st.border;if(b.on){const ph=(performance.now()-t0)/2000*Math.PI*2,pu=b.pulse?0.82+0.18*Math.sin(ph):1,jx=b.pulse?1.5*Math.sin(ph*2):0,jy=b.pulse?1.2*Math.cos(ph*3):0,i=14;
+  for(const[c,w,bl]of[[b.haze,b.thick+22,32],[b.glow,b.thick+12,16],[b.core,b.thick+2,4],['#e1ffff',Math.max(3,b.thick/2),0]]){x.save();x.globalAlpha=pu;x.strokeStyle=c;x.lineWidth=w;x.shadowColor=c;x.shadowBlur=bl;rr(x,i+jx,i+jy,W-2*i,CAMH-2*i,b.radius);x.stroke();x.restore()}}
+ x.fillStyle='#000';x.fillRect(0,H-STRIP,W,STRIP);x.fillStyle='#fff';x.font='700 56px "DM Sans"';x.textAlign='center';x.fillText('LOGO CAMPAGNE',W/2,H-STRIP/2+20);
+ const h=st.hook;x.font=`700 ${h.size*0.82}px "DM Sans"`;const ht='Speed walked into a swamp full of gators',hw=Math.min(980,x.measureText(ht).width+60),lh=h.size*1.05,lines=ht.length*h.size*0.42>960?2:1,hh=lh*lines+24,hy=CAMH-hh/2;
+ x.fillStyle=h.bg;rr(x,(W-Math.min(980,hw/lines+60))/2,hy,Math.min(980,hw/lines+60),hh,18);x.fill();x.fillStyle=h.color;x.textBaseline='middle';
+ if(lines===2){const m=ht.lastIndexOf(' ',ht.length/2+4);x.fillText(ht.slice(0,m),W/2,hy+12+lh/2);x.fillText(ht.slice(m+1),W/2,hy+12+lh*1.5)}else x.fillText(ht,W/2,hy+hh/2);
+ const c=st.captions,words=['THIS','IS','CRAZY'].slice(0,c.words).map(w=>c.upper?w:w.toLowerCase()),act=Math.floor((performance.now()-t0)/500)%words.length;
+ x.font=`800 ${c.size}px "${c.font}"`;x.lineJoin='round';const tw=words.map(w=>x.measureText(w).width),sp=c.size*0.28,tot=tw.reduce((a,v)=>a+v,0)+sp*(words.length-1);let cx=(W-tot)/2;const cy=c.y*H;x.textAlign='left';
+ words.forEach((w,k)=>{if(c.outlineW){x.strokeStyle=c.outline;x.lineWidth=c.outlineW*2;x.strokeText(w,cx,cy)}x.fillStyle=k===act?c.highlight:c.color;x.fillText(w,cx,cy);cx+=tw[k]+sp});
+ x.restore()}
+function drawAll(){drawFrame();drawPhone()}
+(function loop(){if($('#s-editor').classList.contains('on'))drawPhone();requestAnimationFrame(loop)})();
+addEventListener('resize',drawFrame);
+async function saveP(){if(!db||!cur){toast(cur?'Geen verbinding':'Kies eerst een streamer');return}const p=presets[cur]||{name:cur};const body={name:cur,cam:camR,gameShift:+$('#gShift').value,frame:p.frame||null,style:readForm(),updated:new Date().toISOString()};
+ try{await db.collection('presets').doc(cur.replace(/[^A-Za-z0-9_.~:@+-]/g,'_')).set(body);presets[cur]=body;toast('Opgeslagen voor '+cur)}catch(e){toast(e.code==='invalid_argument'?'Frame te groot of ongeldig':'Opslaan mislukt')}}
+$('#saveP').onclick=saveP;
+$('#saveG').onclick=async()=>{if(!db)return;try{await db.doc('style/global').set({...readForm(),updated:new Date().toISOString()});glob=readForm();toast('Standaard opgeslagen')}catch(e){toast('Opslaan mislukt')}};
+// ---------- data
+const snapList=(c,cb)=>db.collection(c).onSnapshot(s=>{cb(s.docs.map(d=>({...d.data(),id:d.id,_c:c})));ok()},err);
+let tm=setTimeout(()=>{$('#st').textContent='Data nog niet bereikbaar…'},10000);
+function ok(){clearTimeout(tm);$('#st').textContent='Live verbonden'}
+function err(e){clearTimeout(tm);$('#st').textContent=e.code==='revoked'?'Geen toegang':'Verbinding verbroken — herlaad later'}
+route();renderSrc();renderFb();renderPresets();renderPlan();
+claude.use('db').then(d=>{db=d;if(!db){clearTimeout(tm);$('#st').textContent='Alleen-lezen: log in op claude.ai';return}
+ snapList('clips',v=>{clips=v;renderClips()});snapList('sources',v=>{sources=v;renderSrc()});snapList('feedback',v=>{fbs=v;renderFb();renderClips()});
+ snapList('presets',v=>{const keep=cur&&presets[cur]&&!v.find(p=>p.name===cur)?presets[cur]:null;presets={};v.forEach(p=>{if(p.name)presets[p.name]=p});if(keep)presets[cur]=keep;renderPresets()});
+ db.doc('style/global').onSnapshot(s=>{glob=s.exists?s.data():null;ok();if(cur)fillForm(styleOf(presets[cur]))},err);
+ db.doc('schedule/accounts').onSnapshot(s=>{plan=s.exists?s.data():null;renderPlan();ok()},err);
+ db.doc('stats/accounts').onSnapshot(s=>{stats=s.exists?s.data():null;renderAccs();ok()},err)});
+}
+</script>
+</body>
+</html>

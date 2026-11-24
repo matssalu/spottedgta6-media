@@ -59,20 +59,22 @@ def map_time(t, keep, offset):
     return None
 
 
-def ass_captions(words, keep, offset, path, y):
+def ass_captions(words, keep, offset, path, y, cs=None):
+    cs = cs or DEF_STYLE["captions"]
     """Word-by-word captions: 1-3 word groups, the word being spoken in yellow."""
     ws = []
     for w in words:
         s, e = map_time(w["start"], keep, offset), map_time(w["end"], keep, offset)
         if s is None or e is None:
             continue
-        txt = r4.censor(w["word"].strip().upper().replace("{", "").replace("}", ""))
+        txt = r4.censor(w["word"].strip().replace("{", "").replace("}", ""))
+        txt = txt.upper() if cs.get("upper", True) else txt
         if txt:
             ws.append((s, e, txt))
     groups, cur = [], []
     for w in ws:
         cur.append(w)
-        if len(cur) >= 3 or re.search(r"[.?!,]$", w[2]) or len(" ".join(x[2] for x in cur)) > 16:
+        if len(cur) >= int(cs.get("words", 3)) or re.search(r"[.?!,]$", w[2]) or len(" ".join(x[2] for x in cur)) > 16:
             groups.append(cur); cur = []
     if cur:
         groups.append(cur)
@@ -83,7 +85,7 @@ def ass_captions(words, keep, offset, path, y):
         for wi, (s, e, _) in enumerate(g):
             s2 = s if wi else s
             e2 = g[wi + 1][0] if wi + 1 < len(g) else g_end
-            parts = [("{\\c&H00F0FF&}" + t + "{\\c&HFFFFFF&}") if j == wi else t for j, (_, _, t) in enumerate(g)]
+            parts = [("{\\c" + ass_col(cs["highlight"]) + "}" + t + "{\\c" + ass_col(cs["color"]) + "}") if j == wi else t for j, (_, _, t) in enumerate(g)]
             pop = "{\\fscx88\\fscy88\\t(0,80,\\fscx100\\fscy100)}" if wi == 0 else ""
             ev.append(f"Dialogue: 0,{r4.ass_time(s2)},{r4.ass_time(max(e2, s2 + 0.05))},Cap,,0,0,0,,{pop}{' '.join(parts)}")
     head = f"""[Script Info]
@@ -94,7 +96,7 @@ WrapStyle: 0
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Cap,TikTok Sans,92,&H00FFFFFF,&H00FFFFFF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,8,3,8,90,140,{y},1
+Style: Cap,{cs["font"]},{int(cs["size"])},{ass_col(cs["color"])},{ass_col(cs["color"])},{ass_col(cs["outline"])},&H80000000,-1,0,0,0,100,100,0,0,1,{int(cs["outlineW"])},3,8,90,140,{y},1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
@@ -107,7 +109,7 @@ LOGOS = {"clipup": os.path.join(os.path.dirname(os.path.abspath(__file__)), "log
          "luxdrop": os.path.join(os.path.dirname(os.path.abspath(__file__)), "logos_use", "luxdrop.png")}
 
 
-def neon_frames(folder, w, h, n=60, inset=14, radius=36, thick=7):
+def neon_frames(folder, w, h, n=60, inset=14, radius=36, thick=7, core="#00e1ff", glow="#8c46ff", haze="#ff46c8", pulse_on=True):
     """Signature animated neon facecam border: cyan core, violet glow, faint pink outer haze,
     gentle pulse + sub-2px jiggle. Writes n looping RGBA frames neon_%02d.png."""
     import math
@@ -115,12 +117,13 @@ def neon_frames(folder, w, h, n=60, inset=14, radius=36, thick=7):
     os.makedirs(folder, exist_ok=True)
     for i in range(n):
         ph = 2 * math.pi * i / n
-        pulse = 0.82 + 0.18 * math.sin(ph)
-        dx, dy = 1.5 * math.sin(ph * 2), 1.2 * math.cos(ph * 3)
+        pulse = 0.82 + 0.18 * math.sin(ph) if pulse_on else 1.0
+        dx, dy = (1.5 * math.sin(ph * 2), 1.2 * math.cos(ph * 3)) if pulse_on else (0, 0)
         box = [inset + dx, inset + dy, w - inset + dx, h - inset + dy]
         img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
-        for col, wid, blur, a in (((255, 70, 200), thick + 22, 16, 0.9), ((140, 70, 255), thick + 12, 8, 1.0),
-                                  ((140, 70, 255), thick + 12, 8, 1.0), ((0, 225, 255), thick + 2, 2, 1.0),
+        H_, G_, C_ = hexc(haze)[:3], hexc(glow)[:3], hexc(core)[:3]
+        for col, wid, blur, a in ((H_, thick + 22, 16, 0.9), (G_, thick + 12, 8, 1.0),
+                                  (G_, thick + 12, 8, 1.0), (C_, thick + 2, 2, 1.0),
                                   ((225, 255, 255), max(3, thick // 2), 0, 1.0)):
             layer = Image.new("RGBA", (w, h), (0, 0, 0, 0))
             ImageDraw.Draw(layer).rounded_rectangle(box, radius=radius, outline=col + (int(255 * a * pulse),), width=wid)
@@ -141,8 +144,46 @@ def sfx(path, kind, dur):
     run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i", f"aevalsrc={expr}:s=48000:d={dur}", "-af", af, "-ac", "2", path])
 
 
+DEF_STYLE = {"border": {"on": True, "core": "#00e1ff", "glow": "#8c46ff", "haze": "#ff46c8", "thick": 7, "radius": 36, "pulse": True},
+             "captions": {"y": 0.585, "font": "TikTok Sans", "size": 92, "color": "#ffffff", "highlight": "#fff000", "outline": "#000000",
+                          "outlineW": 8, "words": 3, "upper": True},
+             "hook": {"bg": "#ffffff", "color": "#000000", "size": 80}}
+
+
+def load_style(sp):
+    """Clip Desk settings: tools/styles.json = {"global": style, "streamers": {name: {cam, gameShift, style}}} (exported from the app).
+    Spec key "streamer" picks the preset; explicit spec keys (cam_rect, game_shift, hook_size, neon) still win."""
+    st = {k: dict(v) for k, v in DEF_STYLE.items()}
+    path = sp.get("styles", os.path.join(HERE, "styles.json"))
+    pre = {}
+    if os.path.exists(path):
+        d = json.load(open(path))
+        for k in st:
+            st[k].update((d.get("global") or {}).get(k) or {})
+        name = sp.get("streamer")
+        for n, v in (d.get("streamers") or {}).items():
+            if name and n.lower().replace(" ", "") == str(name).lower().replace(" ", ""):
+                pre = v
+        for k in st:
+            st[k].update((pre.get("style") or {}).get(k) or {})
+    if pre.get("cam") and "cam_rect" not in sp and "cam" not in sp:
+        sp["cam_rect"] = pre["cam"]
+    if "game_shift" not in sp and pre.get("gameShift"):
+        sp["game_shift"] = pre["gameShift"]
+    return st
+
+
+def hexc(h, a=255):
+    h = h.lstrip("#"); return (int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16), a)
+
+
+def ass_col(h):
+    h = h.lstrip("#"); return f"&H00{h[4:6]}{h[2:4]}{h[0:2]}&".upper()
+
+
 def main():
     sp = json.load(open(sys.argv[1]))
+    ST = load_style(sp)
     src, out = sp["src"], sp["out"]
     tmp = tempfile.mkdtemp(prefix="r5_")
     sw, sh, dur = r4.probe(src)
@@ -154,16 +195,27 @@ def main():
     words = [{"word": w["word"], "start": w["start"] - t0, "end": w["end"] - t0} for w in words if w["start"] >= t0 - 0.05]
     climax = float(sp["climax"]) if "climax" in sp else r4.loud_peak(src, t0, t1)
     # ---- 1. base vertical composite of the window (cam top, game bottom, punch-in on the cam at the climax)
-    if "cam" in sp:
+    if "cam_rect" in sp:  # exact facecam crop from Clip Desk, fractions [x, y, w, h]
+        rx, ry, rw, rh = sp["cam_rect"]
+        cw_, ch_ = sw * rw, sh * rh
+        ar = W / CAM_H
+        if cw_ / ch_ > ar: cw_ = ch_ * ar
+        else: ch_ = cw_ / ar
+        cxm, cym = sw * (rx + rw / 2), sh * (ry + rh / 2)
+        x0 = min(max(0, cxm - cw_ / 2), sw - cw_); y0 = min(max(0, cym - ch_ / 2), sh - ch_)
+        face = None
+        cam = [r4.even(cw_), r4.even(ch_), r4.even(x0), r4.even(y0)]
+    elif "cam" in sp:
         cx, cy, cw, ch = sp["cam"]
         face = (sw * (cx + cw / 2), sh * (cy + ch * 0.45), sh * ch / 4.2)
     else:
         face = r4.find_face(src, sw, sh, dur, t0, t1)
         if face is None:
             print("NOFACE", src); sys.exit(3)
-    cam = r4.cam_box(face, sw, sh, CAM_H, sp.get("cam_mult", 4.2))
-    # keep the face in the upper third of the cam panel so the hook text never covers it
-    cam[3] = r4.even(min(max(0, face[1] - cam[1] * 0.33), sh - cam[1]))
+    if "cam_rect" not in sp:
+        cam = r4.cam_box(face, sw, sh, CAM_H, sp.get("cam_mult", 4.2))
+        # keep the face in the upper third of the cam panel so the hook text never covers it
+        cam[3] = r4.even(min(max(0, face[1] - cam[1] * 0.33), sh - cam[1]))
     logo = sp.get("logo")
     strip_h = 0
     if logo:
@@ -217,14 +269,16 @@ def main():
         parts.append(f"[0:v]trim={a:.3f}:{b:.3f},setpts=PTS-STARTPTS[v{i}];[0:a]atrim={a:.3f}:{b:.3f},asetpts=PTS-STARTPTS[a{i}]")
     cat = "".join(f"[v{i}][a{i}]" for i in range(n)) + f"concat=n={n}:v=1:a=1[vc][ac]"
     hook_png = os.path.join(tmp, "hook.png")
-    tw, th = title_png(sp["hook"], hook_png, size=sp.get("hook_size", 80), maxw=980)
+    tw, th = title_png(sp["hook"], hook_png, size=sp.get("hook_size", int(ST["hook"]["size"])), maxw=980, bg=hexc(ST["hook"]["bg"]), fg=hexc(ST["hook"]["color"]))
     hy = r4.even(sp["hook_y"]) if "hook_y" in sp else (r4.even(150) if sp.get("full") else r4.even(CAM_H - th / 2))  # hook sits on the seam between cam and gameplay, below the face
     chain = "[vc]null[v0]"
     last = "v0"
     inputs = ["-i", base, "-loop", "1", "-i", hook_png]
     idx = 2
-    if sp.get("neon", True) and not sp.get("full"):
-        pat = neon_frames(os.path.join(tmp, "neon"), W, CAM_H)
+    B = ST["border"]
+    if sp.get("neon", B.get("on", True)) and not sp.get("full"):
+        pat = neon_frames(os.path.join(tmp, "neon"), W, CAM_H, radius=int(B["radius"]), thick=int(B["thick"]),
+                          core=B["core"], glow=B["glow"], haze=B["haze"], pulse_on=bool(B["pulse"]))
         inputs += ["-stream_loop", "-1", "-framerate", str(FPS), "-i", pat]
         chain += f";[{last}][{idx}:v]overlay=0:0:shortest=1[vn]"
         last = "vn"; idx += 1
@@ -240,7 +294,7 @@ def main():
         last = "vl"; idx += 1
     if sp.get("captions", True) and words:
         apath = os.path.join(tmp, "cap.ass")
-        if ass_captions(words, keep, offset, apath, y=int(H * 0.585)):
+        if ass_captions(words, keep, offset, apath, y=int(H * float(ST["captions"]["y"])), cs=ST["captions"]):
             chain += f";[{last}]ass={apath}:fontsdir={r4.FONTDIR}[vs]"
             last = "vs"
     # sfx: whoosh into the rewind after the cold open, boom on the climax in the main part

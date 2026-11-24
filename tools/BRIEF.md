@@ -50,3 +50,16 @@ Only edit between :00 and :35 (uploaders rewrite the files at :40 and :52), then
 - schedule_acc2.csv = TikTok StreamSnipes; yt1_schedule.csv = YouTube SpottedGTA6; yt_schedule.csv = YouTube StreamSnipes
 - schedule_cn.csv = TikTok ClipNation; yt_cn_schedule.csv = YouTube ClipNation (posted by the :52 job when due)
 - Instagram (cloud task): repo ig_schedule.csv (SpottedGTA6) and ig2_schedule.csv (StreamSnipes), column caption = full caption.
+
+
+## Clip Desk (Mats's web app) — READ IT EVERY RUN
+App: https://claude.ai/artifact/3NV4dugDc4xiLxvQEtq4Nh  (artifact slug `133230d4-6122-41f3-8159-0da324771466`). Mats manages everything there; it wins over this file for schedule and style.
+Read it with the claude-artifacts tools (ToolSearch "claude-artifacts db"): `db_get` / `db_list` with the slug. If those tools are not available in your run, use the last export in the repo: `tools/clipdesk.json` (schedule, sources, feedback) and `tools/styles.json` (styles), and say in your report that you used the export.
+Collections/docs:
+- `schedule/accounts` → per account `active`, `times` (HH:MM upload slots, Brussels) and `mix` (campaign split). Plan exactly these slots (skip inactive accounts). Overrides "4 per account 18-21".
+- `sources` (Mats's compilations: url, streamers, priority hoog/normaal, note, status nieuw/gebruikt/afgewezen, reply) → research `hoog` first, trace each moment to the original VOD, then `db_write` merge `status` + `reply` (what you made from it, or why not).
+- `feedback` (text, kind, optional clip/clipTitle, status, reply) → read ALL with status `nieuw` before making clips, apply them, add a rule to LEARNINGS.md, then merge `status: "verwerkt"` + a short Dutch `reply`.
+- `presets/<streamer>` (`cam` = exact facecam crop [x,y,w,h] fractions of the 16:9 source, `gameShift`, optional `style`) and `style/global` (border colours/thickness/radius/pulse, captions y/font/size/colours/outline/words/upper, hook bg/colour/size) → before rendering, export them to `tools/styles.json` = {"global": <style/global>, "streamers": {name: {cam, gameShift, style}}} (drop `frame`). render5 reads it: pass `"streamer": "<name>"` in the spec (no `cam` key) and it uses the preset crop + style. New streamer without a preset: measure the cam yourself and ALSO `db_write` a `presets/<name>` doc (name, cam, gameShift) so Mats can fine-tune it.
+- `clips/<id>` (write, admin): one doc per clip you schedule: date, time, account, campaign, streamer, title, score, status (gepland/gepost/mislukt/vervangen), links [{p, url}], views. Production run creates them; the nightly check updates status, links and views.
+- `stats/accounts` (write): nightly check rewrites {updated, accounts:[{name, platforms, target (= slots per day), posts7 (unique clips last 7 days), views7, today, submitted, approved, earnings, best, days:[{date, views}] (7 days)}]}.
+After reading, also refresh the repo exports (tools/clipdesk.json, tools/styles.json) and commit them.

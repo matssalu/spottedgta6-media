@@ -75,7 +75,7 @@ def wrap(text, f, eh, maxw):
     return lines
 
 
-def render(text, out, size=64, maxw=900):
+def render(text, out, size=64, maxw=900, bg=(255, 255, 255, 255), fg=(0, 0, 0, 255)):
     for a in ("Kai Cenat", "GTA 6", "Stable Ronaldo", "FOUGHT BACK"):
         text = text.replace(a, a.replace(" ", "\u00a0"))
     text = re.sub(r" ((?:%s)+)$" % EMO.pattern.strip("()"), "\u00a0\\1", text)
@@ -92,12 +92,12 @@ def render(text, out, size=64, maxw=900):
     d = ImageDraw.Draw(im)
     for i, (l, w) in enumerate(zip(lines, widths)):
         x0 = (W - w) / 2 - padx; y0 = i * lh
-        d.rounded_rectangle([x0, y0, x0 + w + padx * 2, y0 + lh + (2 if i < len(lines) - 1 else 0)], radius=r, fill=(255, 255, 255, 255))
+        d.rounded_rectangle([x0, y0, x0 + w + padx * 2, y0 + lh + (2 if i < len(lines) - 1 else 0)], radius=r, fill=bg)
     for i, (l, w) in enumerate(zip(lines, widths)):
         x = (W - w) / 2; y = i * lh + pady
         for k, p in runs(l):
             if k == "t":
-                d.text((x, y), p, font=f, fill=(0, 0, 0, 255))
+                d.text((x, y), p, font=f, fill=fg)
                 x += f.getlength(p)
             else:
                 for ch in split_emo(p):

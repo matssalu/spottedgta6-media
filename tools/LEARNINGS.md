@@ -88,3 +88,15 @@ Production notes 21 Nov (for the 22 Nov batch)
 - Source method that worked: trending compilations + Speed's own clip-channel shorts (Speedy Boykins) → whisper the short → grep the phrase in the YouTube auto-subs of the full VOD → download only that window via the HLS playlist (yt-dlp --download-sections hangs on 24 h VODs; tools: Mac $HOME/seg/hg.py).
 - Rejected: polar bear (too dark, bear barely visible), dirt-bike race (no clear payoff), store robbery (pause/photo menus). Niko clip cut around a nude cutscene frame.
 - render5: when using a pre-cut source, set "end" to the real duration, otherwise max_len trims the setup away.
+
+## 2026-11-24 — daily run (data as of 24 Nov ~10:30 BXL)
+Sources: TikTok Studio @spottedgta6, public profile @streamsnipes.dail, Windsor IG cache (no refresh on plan; 22 Nov IG posts missing), yt-dlp flat lists of both YT channels (many "NA" = no count exposed), Content Rewards submissions.
+- Content Rewards: 77 submissions, 0 approved, 76 pending, 1 rejected, $0. No clip is near the ClipUp (3K) or LUXDROP (10K) minimum yet.
+- LUXDROP budget: $6,183 / $7,500 spent (only $1,317 left, 4 days after launch) → may run out within days. ClipUp: $1,422 / $15,000 used.
+- Best: YT StreamSnipes "Chat picked KreekCraft's beard" 4,200 + "Dylan empty pool" 1,600 (YT acc2 can take off); IG acc1 Kreek crocodile 1,717 / shark 1,553 (old). New Speed batch (23 Nov): TikTok @spottedgta6 223-225 views EACH (vs 5-12 for the 22 Nov Kreek posts) → TikTok acc1 distribution is back; Speed Niko clip 11 IG shares (most shareable we ever had); Speed lookalike 29.6 s avg watch on a 26 s IG reel (rewatched/looped).
+- Worst: IG StreamSnipes "Speed burger" 9 views (but 17.9 s watch → the content held people, IG just didn't push it); YT SpottedGTA6 still ~0-1 views per Short.
+- Why: recognizable streamer + a visible strange thing named in the hook (Hulk, Niko, twin) gets distribution on TikTok; IG rewards watch time but is erratic per post.
+Rules for today
+1. Hook names the visible weird thing / stake (creature, chase, crash), not a feeling.
+2. 15-26 s, payoff before ~15 s, end on the reaction so it loops (lookalike pattern).
+3. Diversify streamers beyond Speed (CaseOh, OhnePixel, Lacy, Kai, Summit…) — all ≥3K avg viewers so every clip can go to either campaign; prioritise LUXDROP clips while its budget lasts.

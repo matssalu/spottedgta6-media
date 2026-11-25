@@ -113,3 +113,4 @@ Rules for today
 1. Hook = streamer + absurd physical action/irony quote ("let's not crash this time…", "took a selfie with an alligator").
 2. 11-30 s, payoff visible in the vertical crop (reject dark/night or tiny-in-the-distance payoffs: Cohh UFO and Asmon snake rejected today).
 3. Prioritise ClipNation-style Speed moments when the Mac (YouTube) is reachable; ClipNation TikTok has the best reach right now.
+- Mats (25 Nov, feedback): while LUXDROP is paused, make ClipUp clips for those slots too, so every account still gets enough posts (4/day per account, all ClipUp). Filled the 21:00 slots with Cinna WASTED crash (70) and TimTheTatman tased (73).

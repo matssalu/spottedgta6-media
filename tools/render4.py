@@ -99,7 +99,7 @@ BAD = {"FUCK": "F*CK", "FUCKING": "F*CKING", "SHIT": "SH*T", "BITCH": "B*TCH", "
 
 def censor(txt):
     import re
-    return re.sub(r"[A-Z']+", lambda m: BAD.get(m.group(0), m.group(0)), txt)
+    return re.sub(r"[A-Za-z']+", lambda m: BAD.get(m.group(0).upper(), m.group(0)), txt)
 
 
 def ass_time(t):

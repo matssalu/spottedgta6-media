@@ -16,6 +16,8 @@ Older campaigns (KreekCraft, Kai Cenat, Clix, Dylan Page, Gattouz) are FINISHED 
 | Other | keep posts up ≥ 60 days; no reuploads showing another creator's watermark; Instagram: upload analytics via https://forms.gle/3pwRKfejyz79vKtAA once min views reached (tell Mats) | no negative portrayal of LUXDROP; no botting/reposts/collab posts; no AI-generated content; English captions/on-screen text only; no misleading thumbnails |
 | Submit | within 30 min of posting | within 30 min of posting |
 
+**Status 25 Nov 2026 (checked on Content Rewards):** LUXDROP = "Joined · Paused — Out of budget since Nov 25" ($7,258 / $7,500). Do NOT make LUXDROP clips until it resumes; fill those slots with ClipUp. ClipUp: $3,125 / $15,000 used, min payout $0.90 (= 3K tier-1 views), caption must include #clipup.
+
 A video is made for ONE campaign (its logo decides). Never put both logos on one video. Never submit a ClipUp-logo video to LUXDROP or vice versa.
 render5: `"logo": "clipup"` or `"logo": "luxdrop"` adds the logo strip under the gameplay (nothing covers it).
 

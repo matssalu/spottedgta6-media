@@ -100,3 +100,16 @@ Rules for today
 1. Hook names the visible weird thing / stake (creature, chase, crash), not a feeling.
 2. 15-26 s, payoff before ~15 s, end on the reaction so it loops (lookalike pattern).
 3. Diversify streamers beyond Speed (CaseOh, OhnePixel, Lacy, Kai, Summit…) — all ≥3K avg viewers so every clip can go to either campaign; prioritise LUXDROP clips while its budget lasts.
+
+## 2026-11-25 — daily run (data as of 25 Nov ~10:30 BXL)
+Sources: TikTok Studio @spottedgta6, public TikTok profiles @streamsnipes.dail + @clipnation.stream (yt-dlp flat lists from the cloud work), Windsor IG (both accounts), YouTube flat lists of @SpottedGTA6 / @streamsnipessdaily (cloud), Content Rewards submissions.
+- Campaigns: **LUXDROP paused — out of budget since 25 Nov** ($7,258/$7,500). ClipUp $3,125/$15,000 used. Today = ClipUp only.
+- Content Rewards: 95 submissions, 0 approved, 93 pending, 2 rejected, $0.
+- Best: ClipNation TikTok (new account!) Speed iguana 1,158 · Speed grandma scooter 883 · Jynxzi yacht 408 — ClipNation is now our best TikTok. StreamSnipes TikTok SypherPK seaplane 213, Fanum yacht 181, CaseOh bridge 171. SpottedGTA6 TikTok Fanum tree monster 216, OhnePixel banana 110. IG: Speed Niko 242 (11 shares), alligator 150 (19 s watch), lookalike 141 (29 s watch).
+- Worst: SpottedGTA6 TikTok CaseOh seaplane 0 and CaseOh green car 1 (12 h+ after posting); StreamSnipes Jynxzi tower 1 TikTok / 6 IG (posted late 20:55); IG StreamSnipes CaseOh bridge 4 views (but 18 s watch). YouTube still 0-3 per Short on all channels.
+- Why: Speed + an absurd physical action named in the hook (threw a dead iguana, stole grandma's scooter) wins everywhere. Several posts get 0 distribution regardless of content (both 24 Nov CaseOh posts on @spottedgta6) — watch whether this repeats for CaseOh/shooting content.
+- Production note: YouTube downloads are blocked from the cloud and the Mac folder was not accessible today, so all sources were Twitch viewer clips (cloud yt-dlp works for Twitch). Most top Twitch GTA 6 clips are sexual/nude scenes → unusable. Many 2026 Twitch clips have burned-in word captions → render with `"captions": false` to avoid double subtitles. render4.censor fixed (was case-sensitive → "FUCK." slipped through uncensored in mixed case).
+Rules for today
+1. Hook = streamer + absurd physical action/irony quote ("let's not crash this time…", "took a selfie with an alligator").
+2. 11-30 s, payoff visible in the vertical crop (reject dark/night or tiny-in-the-distance payoffs: Cohh UFO and Asmon snake rejected today).
+3. Prioritise ClipNation-style Speed moments when the Mac (YouTube) is reachable; ClipNation TikTok has the best reach right now.

@@ -29,7 +29,8 @@ render5: `"logo": "clipup"` or `"logo": "luxdrop"` adds the logo strip under the
 | StreamSnipes Daily (personality: Speed, Kai, OhnePixel, big streamers; conversations, reactions, interactions) | TikTok @streamsnipes.dail, Instagram + YouTube @streamsnipessdaily | 18:00, 19:00, 20:00, 21:00 |
 | ClipNation (curated best GTA VI streamer moments, broad mix) | TikTok + YouTube only (no Instagram) — needs `setup_clipnation.command` run once on the Mac | 18:00, 19:00, 20:00, 21:00 |
 Each account gets its OWN clips (never the same moment on two accounts). The same video goes to all platforms of ONE account.
-Target = 12 clips/day. Never fill a slot with a weak clip: leave it empty and say why.
+**Mats (26 Nov): deliver EVERY Clip Desk slot (asks 15 → deliver 15).** Aim ≥70; if nothing ≥70 is left, use the best available moment and label it "onder de 70-lat" in the report. Only leave a slot empty for a hard rule (nudity, slurs, logo/eligibility) and say why.
+Note: the Instagram poster task runs at :01 18-21h only (17:00 IG rows are written as 17:30 so the 18:01 run still posts them); the Content Rewards :10 submit task runs 17-21h.
 
 ## Where moments come from (in this order)
 1. **Trending YouTube compilations / highlight videos** of streamers playing GTA 6 (Mats's idea): search YouTube on the Mac shell (`python3 -m yt_dlp "ytsearch30:<streamer> GTA 6 funny moments" --flat-playlist --print "%(id)s %(view_count)s %(upload_date)s %(title)s"`), pick recent ones with high views, read their chapters/transcripts to find the moments, then **trace each moment to the streamer's original VOD/clip** (Twitch/YouTube/Kick) and clip from the ORIGINAL — never use a compilation's or another clipper's finished footage. Log the competitor/compilation in competitors.csv.

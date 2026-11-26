@@ -114,3 +114,19 @@ Rules for today
 2. 11-30 s, payoff visible in the vertical crop (reject dark/night or tiny-in-the-distance payoffs: Cohh UFO and Asmon snake rejected today).
 3. Prioritise ClipNation-style Speed moments when the Mac (YouTube) is reachable; ClipNation TikTok has the best reach right now.
 - Mats (25 Nov, feedback): while LUXDROP is paused, make ClipUp clips for those slots too, so every account still gets enough posts (4/day per account, all ClipUp). Filled the 21:00 slots with Cinna WASTED crash (70) and TimTheTatman tased (73).
+
+## 2026-11-26 — daily run (data as of 26 Nov ~10:30 BXL)
+Sources: public TikTok profiles (cloud yt-dlp), Windsor IG (both accounts), YouTube flat lists (cloud), Content Rewards. stats_tt_yt.json on the Mac was last written 24 Nov 20:09 → the hourly stats job is not running.
+- Campaigns: LUXDROP still paused (out of budget, $7,500/$7,500). ClipUp rate lowered to $0.25/1K tier-1 (min $0.75), $5,044/$15,000 used.
+- Content Rewards: 105 submissions, 0 approved, 99 pending, 6 rejected (was 2), $0.
+- Best (25 Nov batch): TikTok SpottedGTA6 YourRAGE gator 212 / NickEh30 motorcycle 207; IG SpottedGTA6 every 25 Nov reel 122-159 views (gator 13 s avg watch, 7 likes); YouTube StreamSnipes CaseOh "let's not crash" 1,000 views (first YT short above ~10). ClipNation TikTok older posts still lead (iguana 1,158, grandma scooter 886, Jynxzi yacht 597) — and ClipNation got NO posts on 25 Nov (no Mac rows written).
+- Worst: TikTok SpottedGTA6 CaseOh respray + Cinna = 0 views; TikTok StreamSnipes Adapt 0, CaseOh 6, OhnePixel 31; IG StreamSnipes all four 25 Nov reels 1-4 views. StreamSnipes IG and TikTok are basically not being distributed — 2 days in a row.
+- Why: content quality is similar across accounts, so the 0-view posts look like distribution/account-level suppression (StreamSnipes) rather than the clip. ClipNation is the account where the algorithm currently pushes us → give it the strongest clips.
+Rules for today
+1. Strongest clip of the day goes to ClipNation (best reach) — today Speed's emotional GTA 6 ending reaction (Mats: emotional moments are allowed).
+2. Prefer proven moments: trending clip-channel shorts (Speedy Boykins, Vyper) → grep the phrase in the streamer's VOD auto-subs → cut from the original VOD.
+3. Captions must never sit over the logo strip (Clip Desk presets with y 0.8+ did that) — render5 now clamps them.
+Production notes 26 Nov
+- Mats feedback applied: facecam in a safe-zone box (44 px sides, 112 px top) with blurred cam fill around it, so the neon border is never cut by TikTok/IG/YT UI; exact cam rect always (crop inside the webcam); captions ~15% smaller; no burned-in Noto emoji in hooks (emoji only in post captions); 1080p60/1440p sources.
+- Rejected today: Speed demon/Bigfoot/haunted-hotel/UFO-abduction easter eggs (too dark, little reaction), Speed alien autopsy (static, 62), OhnePixel boar + UFO (dark), OhnePixel fetch (68) + golden car (65), most OhnePixel 7d Twitch clips (sexual/strip club or map screens).
+- Only 7 of 15 slots filled: quality bar held at ≥70, Mac downloads are ~1 min per minute of footage and 2 cloud CPUs make whisper/render slow.

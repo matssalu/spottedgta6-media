@@ -1,2 +1,140 @@
-{"exported_at": "2026-11-24T17:45", "global": {"border": {"on": true, "core": "#00e1ff", "glow": "#8c46ff", "haze": "#ff46c8", "thick": 7, "radius": 36, "pulse": true}, "captions": {"y": 0.585, "font": "TikTok Sans", "size": 92, "color": "#ffffff", "highlight": "#fff000", "outline": "#000000", "outlineW": 8, "words": 3, "upper": true}, "hook": {"bg": "#ffffff", "color": "#000000", "size": 80}},
- "streamers": {"IShowSpeed": {"cam": [0.007, 0.425, 0.186, 0.223], "gameShift": 0}, "Jynxzi": {"cam": [0.0, 0.396, 0.25, 0.3], "gameShift": 0}, "OhnePixel": {"cam": [0.074, 0.676, 0.27, 0.324], "gameShift": 0.13}}}
+{
+ "exported_at": "2026-11-26T10:20",
+ "global": {
+  "border": {
+   "core": "#00e1ff",
+   "glow": "#8c46ff",
+   "haze": "#ff46c8",
+   "on": true,
+   "pulse": true,
+   "radius": 36,
+   "thick": 7
+  },
+  "captions": {
+   "color": "#ffffff",
+   "font": "TikTok Sans",
+   "highlight": "#fff000",
+   "outline": "#000000",
+   "outlineW": 7,
+   "size": 78,
+   "upper": true,
+   "words": 3,
+   "y": 0.585
+  },
+  "hook": {
+   "bg": "#ffffff",
+   "color": "#000000",
+   "size": 80
+  }
+ },
+ "streamers": {
+  "IShowSpeed": {
+   "cam": [
+    0.0011042164910693153,
+    0.3831445420613269,
+    0.20940253808200288,
+    0.2516277412343409
+   ],
+   "gameShift": 0,
+   "style": {
+    "border": {
+     "core": "#ff0033",
+     "glow": "#475dff",
+     "haze": "#ff4791",
+     "on": true,
+     "pulse": true,
+     "radius": 36,
+     "thick": 7
+    },
+    "captions": {
+     "color": "#ffffff",
+     "font": "TikTok Sans",
+     "highlight": "#ff0026",
+     "outline": "#000000",
+     "outlineW": 7,
+     "size": 74,
+     "upper": true,
+     "words": 3,
+     "y": 0.815
+    },
+    "hook": {
+     "bg": "#ffffff",
+     "color": "#000000",
+     "size": 80
+    }
+   }
+  },
+  "Jynxzi": {
+   "cam": [
+    0.735,
+    0.5998120381759081,
+    0.265,
+    0.3184362139917696
+   ],
+   "gameShift": 0,
+   "style": {
+    "border": {
+     "core": "#00e1ff",
+     "glow": "#8c46ff",
+     "haze": "#ff46c8",
+     "on": true,
+     "pulse": true,
+     "radius": 0,
+     "thick": 7
+    },
+    "captions": {
+     "color": "#ffffff",
+     "font": "TikTok Sans",
+     "highlight": "#fff000",
+     "outline": "#000000",
+     "outlineW": 7,
+     "size": 78,
+     "upper": true,
+     "words": 3,
+     "y": 0.83
+    },
+    "hook": {
+     "bg": "#ffffff",
+     "color": "#000000",
+     "size": 80
+    }
+   }
+  },
+  "OhnePixel": {
+   "cam": [
+    0.06331872535711977,
+    0.6759999999999999,
+    0.27,
+    0.324
+   ],
+   "gameShift": 0.13,
+   "style": {
+    "border": {
+     "core": "#00e1ff",
+     "glow": "#8c46ff",
+     "haze": "#ff46c8",
+     "on": true,
+     "pulse": true,
+     "radius": 36,
+     "thick": 7
+    },
+    "captions": {
+     "color": "#ffffff",
+     "font": "TikTok Sans",
+     "highlight": "#ff00dd",
+     "outline": "#000000",
+     "outlineW": 7,
+     "size": 74,
+     "upper": true,
+     "words": 3,
+     "y": 0.845
+    },
+    "hook": {
+     "bg": "#ffffff",
+     "color": "#000000",
+     "size": 80
+    }
+   }
+  }
+ }
+}

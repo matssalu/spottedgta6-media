@@ -16,6 +16,10 @@ from tiktitle import render as title_png
 import render4 as r4
 
 W, H, CAM_H = 1080, 1920, 730
+# 26 Nov (Mats: border often cut off on TikTok/IG/YT): the facecam sits in a box inside the platform safe zone,
+# away from the top UI bar and the screen edges; a blurred copy of the cam fills the space around it.
+CAM_SX, CAM_TOP, CAM_BOT = 44, 112, 14
+CAM_BW, CAM_BH = W - 2 * CAM_SX, CAM_H - CAM_TOP - CAM_BOT
 FPS = 30
 
 
@@ -109,7 +113,7 @@ LOGOS = {"clipup": os.path.join(os.path.dirname(os.path.abspath(__file__)), "log
          "luxdrop": os.path.join(os.path.dirname(os.path.abspath(__file__)), "logos_use", "luxdrop.png")}
 
 
-def neon_frames(folder, w, h, n=60, inset=14, radius=36, thick=7, core="#00e1ff", glow="#8c46ff", haze="#ff46c8", pulse_on=True):
+def neon_frames(folder, w, h, n=60, inset=14, radius=36, thick=7, core="#00e1ff", glow="#8c46ff", haze="#ff46c8", pulse_on=True, rect=None):
     """Signature animated neon facecam border: cyan core, violet glow, faint pink outer haze,
     gentle pulse + sub-2px jiggle. Writes n looping RGBA frames neon_%02d.png."""
     import math
@@ -119,7 +123,8 @@ def neon_frames(folder, w, h, n=60, inset=14, radius=36, thick=7, core="#00e1ff"
         ph = 2 * math.pi * i / n
         pulse = 0.82 + 0.18 * math.sin(ph) if pulse_on else 1.0
         dx, dy = (1.5 * math.sin(ph * 2), 1.2 * math.cos(ph * 3)) if pulse_on else (0, 0)
-        box = [inset + dx, inset + dy, w - inset + dx, h - inset + dy]
+        box = ([rect[0] + dx, rect[1] + dy, rect[2] + dx, rect[3] + dy] if rect else
+               [inset + dx, inset + dy, w - inset + dx, h - inset + dy])
         img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
         H_, G_, C_ = hexc(haze)[:3], hexc(glow)[:3], hexc(core)[:3]
         for col, wid, blur, a in ((H_, thick + 22, 16, 0.9), (G_, thick + 12, 8, 1.0),
@@ -198,7 +203,7 @@ def main():
     if "cam_rect" in sp:  # exact facecam crop from Clip Desk, fractions [x, y, w, h]
         rx, ry, rw, rh = sp["cam_rect"]
         cw_, ch_ = sw * rw, sh * rh
-        ar = W / CAM_H
+        ar = CAM_BW / CAM_BH
         if cw_ / ch_ > ar: cw_ = ch_ * ar
         else: ch_ = cw_ / ar
         cxm, cym = sw * (rx + rw / 2), sh * (ry + rh / 2)
@@ -216,6 +221,8 @@ def main():
         cam = r4.cam_box(face, sw, sh, CAM_H, sp.get("cam_mult", 4.2))
         # keep the face in the upper third of the cam panel so the hook text never covers it
         cam[3] = r4.even(min(max(0, face[1] - cam[1] * 0.33), sh - cam[1]))
+        cam[1] = r4.even(cam[0] * CAM_BH / CAM_BW)  # match the safe-zone box aspect (no stretching)
+        cam[3] = r4.even(min(max(0, face[1] - cam[1] * 0.33), sh - cam[1]))
     logo = sp.get("logo")
     strip_h = 0
     if logo:
@@ -228,6 +235,7 @@ def main():
     rc = climax - t0
     zp = (f"zoompan=z='if(between(it,{rc - 0.25:.2f},{rc + 1.6:.2f}),1.16,1)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'"
           f":d=1:s={W}x{CAM_H}:fps={FPS}")
+    zpc = zp.replace(f"s={W}x{CAM_H}", f"s={CAM_BW}x{CAM_BH}")
     base = os.path.join(tmp, "base.mp4")
     if sp.get("full"):  # IRL / single-camera source: one 9:16 crop, punch-in on the climax
         fx = sp.get("full_x", 0.5)
@@ -236,7 +244,9 @@ def main():
         fc = (f"[0:v]fps={FPS},crop={cw9}:{sh}:{cx9}:0,scale={W}:{H - strip_h}:flags=lanczos,{zpf},pad={W}:{H}:0:0:black[v];[0:a]aresample=48000[a0]")
     else:
       fc = (f"[0:v]fps={FPS},split=2[a][b];"
-          f"[a]crop={cam[0]}:{cam[1]}:{cam[2]}:{cam[3]},scale={W}:{CAM_H}:flags=lanczos,{zp}[cam];"
+          f"[a]crop={cam[0]}:{cam[1]}:{cam[2]}:{cam[3]},split=2[cf][cb];"
+          f"[cb]scale={W}:{CAM_H}:flags=bilinear,boxblur=24:2,eq=brightness=-0.18[cbg];"
+          f"[cf]scale={CAM_BW}:{CAM_BH}:flags=lanczos,{zpc}[cfg];[cbg][cfg]overlay={CAM_SX}:{CAM_TOP}[cam];"
           f"[b]crop={gw}:{sh}:{gx}:0,scale={W}:{game_h}:flags=lanczos[game];[cam][game]vstack,pad={W}:{H}:0:0:black[v];"
           f"[0:a]aresample=48000[a0]")
     run(["ffmpeg", "-v", "error", "-y", "-ss", f"{t0:.2f}", "-t", f"{t1 - t0:.2f}", "-i", src, "-filter_complex", fc,
@@ -269,6 +279,8 @@ def main():
         parts.append(f"[0:v]trim={a:.3f}:{b:.3f},setpts=PTS-STARTPTS[v{i}];[0:a]atrim={a:.3f}:{b:.3f},asetpts=PTS-STARTPTS[a{i}]")
     cat = "".join(f"[v{i}][a{i}]" for i in range(n)) + f"concat=n={n}:v=1:a=1[vc][ac]"
     hook_png = os.path.join(tmp, "hook.png")
+    # 26 Nov (Mats): no Noto/"Android" emoji burned into the video; emojis stay in the post caption (native emoji per device)
+    sp["hook"] = re.sub(r"[\U0001F000-\U0001FFFF\u2600-\u27BF\uFE0F\u200D]", "", sp["hook"]).strip()
     tw, th = title_png(sp["hook"], hook_png, size=sp.get("hook_size", int(ST["hook"]["size"])), maxw=980, bg=hexc(ST["hook"]["bg"]), fg=hexc(ST["hook"]["color"]))
     hy = r4.even(sp["hook_y"]) if "hook_y" in sp else (r4.even(150) if sp.get("full") else r4.even(CAM_H - th / 2))  # hook sits on the seam between cam and gameplay, below the face
     chain = "[vc]null[v0]"
@@ -278,7 +290,8 @@ def main():
     B = ST["border"]
     if sp.get("neon", B.get("on", True)) and not sp.get("full"):
         pat = neon_frames(os.path.join(tmp, "neon"), W, CAM_H, radius=int(B["radius"]), thick=int(B["thick"]),
-                          core=B["core"], glow=B["glow"], haze=B["haze"], pulse_on=bool(B["pulse"]))
+                          core=B["core"], glow=B["glow"], haze=B["haze"], pulse_on=bool(B["pulse"]),
+                          rect=[CAM_SX, CAM_TOP, CAM_SX + CAM_BW, CAM_TOP + CAM_BH])
         inputs += ["-stream_loop", "-1", "-framerate", str(FPS), "-i", pat]
         chain += f";[{last}][{idx}:v]overlay=0:0:shortest=1[vn]"
         last = "vn"; idx += 1
@@ -294,7 +307,10 @@ def main():
         last = "vl"; idx += 1
     if sp.get("captions", True) and words:
         apath = os.path.join(tmp, "cap.ass")
-        if ass_captions(words, keep, offset, apath, y=int(H * float(ST["captions"]["y"])), cs=ST["captions"]):
+        cy = int(H * float(ST["captions"]["y"]))
+        if logo:  # campaign rule: captions must never cover the logo strip
+            cy = min(cy, H - strip_h - int(ST["captions"]["size"]) - 40)
+        if ass_captions(words, keep, offset, apath, y=cy, cs=ST["captions"]):
             chain += f";[{last}]ass={apath}:fontsdir={r4.FONTDIR}[vs]"
             last = "vs"
     # sfx: whoosh into the rewind after the cold open, boom on the climax in the main part

@@ -12,11 +12,12 @@ Older campaigns (KreekCraft, Kai Cenat, Clix, Dylan Page, Gattouz) are FINISHED 
 | Source | any GTA 6 streamer gameplay ("post only streamer gameplay") | any GTA 6 gameplay/stream from BIG streamers (avg ≥ 3,000 viewers) |
 | Logo | `logos_use/clipup.png` (official file, proportionally scaled, never recoloured/cropped/stretched), whole clip, never covered by captions, facecam, map or HUD | `logos_use/luxdrop.png` (official Watermark-2, native size) whole clip. **No other logos of any kind** on LUXDROP videos |
 | Caption | must contain `#gta6 #Clipup` | must contain `#LUXDROP` |
-| Pays | $0.30/1K Tier-1 views (US/UK/CA/AU), from 3,000 views, max $150; engagement ≥ 0.5% (likes+comments) | $0.75/1K, from 10,000 views (MVR), max $300; ≥ 50% audience US/CA/AU/UK/NZ |
+| Pays | $0.25/1K Tier-1 views (US/UK/CA/AU), from 3,000 views ($0.75), max $150; engagement ≥ 0.5% (likes+comments) | $0.75/1K, from 10,000 views (MVR), max $300; ≥ 50% audience US/CA/AU/UK/NZ |
 | Other | keep posts up ≥ 60 days; no reuploads showing another creator's watermark; Instagram: upload analytics via https://forms.gle/3pwRKfejyz79vKtAA once min views reached (tell Mats) | no negative portrayal of LUXDROP; no botting/reposts/collab posts; no AI-generated content; English captions/on-screen text only; no misleading thumbnails |
 | Submit | within 30 min of posting | within 30 min of posting |
 
-**Status 25 Nov 2026 (checked on Content Rewards):** LUXDROP = "Joined · Paused — Out of budget since Nov 25" ($7,258 / $7,500). Do NOT make LUXDROP clips until it resumes. **Mats (25 Nov): make ClipUp clips instead, so every account still gets its full 4 clips/day (all 4 slots ClipUp).** ClipUp: $3,125 / $15,000 used, min payout $0.90 (= 3K tier-1 views), caption must include #clipup.
+**Status 26 Nov 2026 (checked on Content Rewards):** LUXDROP = "Joined · Paused — Out of budget since Nov 26" ($7,500 / $7,500, $0 left; views keep counting, earnings settle only if the brand adds budget). Do NOT make LUXDROP clips until it resumes. **ClipUp rate changed: now $0.25/1K tier-1 views (was $0.30), min payout $0.75 (= 3K tier-1 views), max $150**; budget $5,044 / $15,000 used; caption must include #clipup. Mats (25 Nov): all slots ClipUp while LUXDROP is paused. Clip Desk schedule (26 Nov): 5 slots per account (17:00-21:00), all ClipUp.
+Content Rewards 26 Nov: 105 submissions, 0 approved, 99 pending, 6 rejected.
 
 A video is made for ONE campaign (its logo decides). Never put both logos on one video. Never submit a ClipUp-logo video to LUXDROP or vice versa.
 render5: `"logo": "clipup"` or `"logo": "luxdrop"` adds the logo strip under the gameplay (nothing covers it).
@@ -35,7 +36,7 @@ Target = 12 clips/day. Never fill a slot with a weak clip: leave it empty and sa
 2. Competitor clipping accounts (TikTok/Shorts/Reels in the GTA 6 streamer niche): their best-performing videos → reverse-search the original stream → our own edit.
 3. Twitch viewer clips sorted by views (yt-dlp `/clips?range=7d`), chat spikes (chatpeaks.py), loudness peaks — for the streamers' latest streams.
 Priority streamers (Mats, 24 Nov): IShowSpeed, Kai Cenat, **OhnePixel and Jynxzi (use them EVERY day — at least 1 OhnePixel + 1 Jynxzi clip per day)**, then other big GTA 6 streamers (≥ 3,000 avg viewers for LUXDROP). Jynxzi (Twitch jynxzi, YouTube "Jynxzi Live"/clips) and OhnePixel (Twitch ohnepixel) are both big enough for LUXDROP.
-YouTube blocks the cloud: run yt-dlp on the Mac shell (device_bash, in $HOME, each call < 170 s), copy results into ~/mnt/Documents/GTA6-page/media/… and device_stage_files them.
+YouTube blocks the cloud: run yt-dlp on the Mac shell (device_bash, in $HOME, each call < 170 s; `python3 -m pip install --user yt-dlp` first, the VM home is reset), copy results into ~/mnt/Documents/GTA6-page/media/raw/d<date>/ and device_stage_files them. Background jobs on the Mac shell die when the call ends — run downloads in the foreground, one or two per call. Short VODs (<2 h): `yt-dlp --download-sections "*a-b"` WITHOUT --force-keyframes-at-cuts (that re-encodes and times out). Long VODs (4 h+): download-sections hangs → use the HLS segment grabber (26 Nov run: $HOME/seg/hg.py name start dur videoid 312 — fetches only the m3u8 segments of the window, 1080p60, ~80 s per minute of footage). Find a moment in a long VOD by grepping its YouTube auto-subs (--write-auto-subs --sub-format json3) for a phrase from the trending short/compilation.
 
 ## Editing (render5.py)
 - Signature **animated neon facecam border** is on by default (`"neon": false` to disable; automatically off in `"full"` mode = no facecam).

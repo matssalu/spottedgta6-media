@@ -25,7 +25,7 @@ render5: `"logo": "clipup"` or `"logo": "luxdrop"` adds the logo strip under the
 ## Accounts and daily slots (Brussels time; 4 clips per account: 2 ClipUp + 2 LUXDROP)
 | Account | Platforms | Slots |
 |---|---|---|
-| SpottedGTA6 (GTA VI moments, NPCs, discoveries, reactions) | TikTok @spottedgta6, Instagram @spottedgta6, YouTube "Spotted GTA6" | 18:00, 19:00, 20:00, 21:00 |
+| SpottedGTA6 (GTA VI moments, NPCs, discoveries, reactions) | TikTok @clipsonmandela (renamed from @spottedgta6 on 27 Nov), Instagram @spottedgta6, YouTube "Spotted GTA6" | 18:00, 19:00, 20:00, 21:00 |
 | StreamSnipes Daily (personality: Speed, Kai, OhnePixel, big streamers; conversations, reactions, interactions) | TikTok @streamsnipes.dail, Instagram + YouTube @streamsnipessdaily | 18:00, 19:00, 20:00, 21:00 |
 | ClipNation (curated best GTA VI streamer moments, broad mix) | TikTok + YouTube only (no Instagram) — needs `setup_clipnation.command` run once on the Mac | 18:00, 19:00, 20:00, 21:00 |
 Each account gets its OWN clips (never the same moment on two accounts). The same video goes to all platforms of ONE account.

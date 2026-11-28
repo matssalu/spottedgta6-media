@@ -16,6 +16,8 @@ Older campaigns (KreekCraft, Kai Cenat, Clix, Dylan Page, Gattouz) are FINISHED 
 | Other | keep posts up ≥ 60 days; no reuploads showing another creator's watermark; Instagram: upload analytics via https://forms.gle/3pwRKfejyz79vKtAA once min views reached (tell Mats) | no negative portrayal of LUXDROP; no botting/reposts/collab posts; no AI-generated content; English captions/on-screen text only; no misleading thumbnails |
 | Submit | within 30 min of posting | within 30 min of posting |
 
+**Status 28 Nov 2026 (checked on Content Rewards): BOTH campaigns stopped — ClipUp "Joined · Paused", out of budget ($15,000 / $15,000, $0 left; views keep counting, earnings settle only if the brand adds budget); LUXDROP out of budget since Nov 26 and reachclipping.com/LUXDROP now says "Campaign ended" (410). → No campaign clips until Mats decides (new campaign or non-campaign growth posts). 130 submissions: 0 approved, 124 pending, 6 rejected.**
+
 **Status 26 Nov 2026 (checked on Content Rewards):** LUXDROP = "Joined · Paused — Out of budget since Nov 26" ($7,500 / $7,500, $0 left; views keep counting, earnings settle only if the brand adds budget). Do NOT make LUXDROP clips until it resumes. **ClipUp rate changed: now $0.25/1K tier-1 views (was $0.30), min payout $0.75 (= 3K tier-1 views), max $150**; budget $5,044 / $15,000 used; caption must include #clipup. Mats (25 Nov): all slots ClipUp while LUXDROP is paused. Clip Desk schedule (26 Nov): 5 slots per account (17:00-21:00), all ClipUp.
 Content Rewards 26 Nov: 105 submissions, 0 approved, 99 pending, 6 rejected.
 

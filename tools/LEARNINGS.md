@@ -132,3 +132,15 @@ Production notes 26 Nov
 - Only 7 of 15 slots filled: quality bar held at ≥70, Mac downloads are ~1 min per minute of footage and 2 cloud CPUs make whisper/render slow.
 - Mats (26 Nov, live): "als ik vraag voor 15 clips dan is het de bedoeling dat je er 15 aanlevert" → deliver EVERY Clip Desk slot. Fill with the best available moment even when it scores 66-69 (label it below the 70 bar in the report) — only skip on hard rules (slurs, nudity, logo/eligibility). Budget the run for it: start 15+ candidates early from cloud-fast sources (Twitch top clips 7d of 30+ GTA streamers) and use Mac/YouTube only for the 3-5 best proven moments.
 - Kai Cenat finale/ending clips and YourRAGE "SCREE" rejected: n-word in the audio. Speed easter-egg stream: most eggs are night scenes → too dark for vertical.
+
+## 2026-11-28 — daily run (data as of 28 Nov ~10:30 BXL)
+Sources: public TikTok profiles via cloud yt-dlp (StreamSnipes needs `tiktokuser:<secUid>`; the @handle fails), YouTube /shorts flat lists (cloud; private/new shorts show no count), Windsor IG (both accounts), Content Rewards. stats_tt_yt.json on the Mac now only holds views for 61/175 links (last write 28 Nov 00:37).
+- **Campaigns: ClipUp is now ALSO out of budget ($15,000/$15,000, "Paused"), LUXDROP ended (reachclipping.com/LUXDROP = "Campaign ended", HTTP 410).** → no campaign clips made today; 15 Clip Desk slots left empty, Mats notified.
+- Content Rewards: 130 submissions, 0 approved, 124 pending, 6 rejected, $0. Highest submitted views ~190.
+- Best: YouTube StreamSnipes Moist "cashier insulted Charlie" 2,400 (26 Nov) and CaseOh "let's not crash" 1,200; ClipNation TikTok 26 Nov batch 508-624 EACH (Speed ending 624, Squeex trick 600, Moist slap 594, CaseOh flip 562, Speed UFO 508).
+- Worst: ClipNation TikTok 27 Nov (Mats's manual IRL/OhnePixel uploads) 0-10 views each vs 500-600 the day before; StreamSnipes TikTok 27 Nov 0-80; 11 YouTube shorts of 27 Nov still private (scheduling bug) → 0 views. YouTube SpottedGTA6 + ClipNation still 0-2 per Short.
+- Why: on the same account one day apart, GTA 6 streamer moments with a named big streamer + a visible action got ~550 views each; IRL clips with unknown streamers got ~0 → ClipNation's audience was built on GTA 6 big-streamer moments, off-niche IRL kills distribution. MoistCr1TiKaL (avg 663 over 5 posts) is the surprise best streamer; OhnePixel (29 posts, avg 60) and Jynxzi (avg 36) underperform despite being "daily" priorities.
+Rules for the next production day
+1. Keep each account on-niche: GTA 6 + big recognisable streamer + visible action; no IRL/unknown-streamer clips on ClipNation.
+2. Add MoistCr1TiKaL and CaseOh to the priority list; cap OhnePixel/Jynxzi at 1 each per day until their numbers improve.
+3. Check that YouTube uploads end up public (27 Nov: 11 stuck private).

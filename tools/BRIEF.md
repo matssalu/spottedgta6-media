@@ -69,3 +69,12 @@ Collections/docs:
 - `clips/<id>` (write, admin): one doc per clip you schedule, id `d<MMDD>-<file stem>`: date, time, account, campaign, streamer, title, score, status (gepland/gepost/mislukt/vervangen), file (mp4 name), caption (full caption, used to match the Instagram post), links [{p, url}], views, likes, perPlatform [{p, views}]. The hourly stats task fills views/likes/links. Production run creates them; the nightly check updates status, links and views.
 - `stats/accounts` (write): rewritten every hour by the stats task with tools/stats_build.py: {updated, accounts:[{name, platforms, videos (online), views, likes, earnings, submitted, approved, perPlatform:[{p, videos, views, likes}], best, days:[{date, views}]}]}.
 After reading, also refresh the repo exports (tools/clipdesk.json, tools/styles.json) and commit them.
+
+## New workflow (from 28 Nov 2026) — replaces the automatic production
+All scheduled tasks were deleted on Mats's request. No Content Rewards for now (until the accounts get enough views): no campaign hashtags, no submissions.
+1. Mats gives a batch of clips (attachment or the Desktop/uploaden folder).
+2. Watch + transcribe each clip. Spread the batch over all accounts up front (SpottedGTA6 = @clipsonmandela on TikTok, StreamSnipes Daily, ClipNation), every account gets clips, max 1 per account per hour, evening slots first.
+3. Title + description per clip: curiosity hook title; description in English ending with a question; credit the streamer ("🎥 Credit: <name>"), where to follow them (verify their real Twitch/YouTube/Kick/X links by search — never guess), relevant tags (#<streamer> #gta6 #streamer …). Never #fyp/#reels. Content rules from MASTER_INSTRUCTIONS still apply (no slurs, no sexual/drug talk).
+4. TikTok: rows in schedule.csv / schedule_acc2.csv / schedule_cn.csv, then Mats double-clicks tools/uploader/schedule_all.command → scheduled inside TikTok. YouTube: yt1/yt/yt_cn rows, same command uploads with `--ahead` → scheduled inside YouTube (date + time are set and verified; the 27 Nov bug was Studio defaulting the date to tomorrow).
+5. Instagram (SpottedGTA6 17841452823419263, StreamSnipes 17841476477573985; ClipNation has none): repo ig_schedule.csv / ig2_schedule.csv rows + a send_later reminder at HH:01 that posts via Windsor create_video_post.
+6. Mac CSV edits only between :00 and :35.
